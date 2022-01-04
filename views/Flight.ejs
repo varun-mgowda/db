@@ -1,0 +1,60 @@
+<%- include("partials/header")%>
+<style media="screen">
+  /* .b{
+    display:flex;
+
+  } */
+  .b1{
+    margin-right:20px;
+  }
+#one{
+  margin-right:20px;
+}
+
+  #vehical{
+padding-top:7px;
+padding-bottom:7px;
+  margin: 16px 0 16px 0;
+  box-sizing: border-box
+  text-align:center;
+  }
+</style>
+
+<h1><%=title%> carbon footprint calculator </h1>
+
+<form  action="/Flight" method="post" >
+  <div name="ways">
+    <label  for="one">One way flight</label>
+    <input type="radio" name="a" id="one" value="one" checked=checked>
+    <label  for="two">Two way flight</label>
+    <input type="radio" name="a" id="two" value="two">
+
+  </div>
+
+  <label for="vehical">Select the Flight type: </label>
+  <select name="vehical" id="vehical">
+      <option value="">--Please choose an option--</option>
+      <option value="DomesticFlight">DomesticFlight</option>
+      <option value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
+      <option value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>
+      <option value="LongEconomyClassFlight">LongEconomyClassFlight</option>
+      <option value="LongPremiumClassFlight">LongPremiumClassFlight</option>
+      <option value="LongBusinessClassFlight">LongBusinessClassFlight</option>
+      <option value="LongFirstClassFlight">LongFirstClassFlight</option>
+  </select>
+  <br>
+  <label for="distance">Enter the distance you travelled in Kms: </label>
+  <input type="number" name="distance" min=0 >
+<br>
+
+  <button style="margin-top:10px;"  type="submit" name="button" class="form1 btn">calculate</button>
+</form>
+<h2>Total Flights Footprint = <%=carbon%> metric tons of CO2e.</h2>
+
+<div >
+<button type="button" class="btn b1" ><a href="/CarTravel">Previous</a></button>
+  <button type="button" class="btn" ><a href="/MotorBike">Next</a></button>
+
+</div>
+
+<%- include("partials/footer")%>

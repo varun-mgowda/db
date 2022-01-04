@@ -1,0 +1,71 @@
+<%- include("partials/header")%>
+
+<style >
+ #anchor{
+   padding:8px;
+
+
+   border-color:black;
+   border-radius:3px;
+
+ }
+  #car{
+padding-top:7px;
+padding-bottom:7px;
+  margin: 16px 0 16px 0;
+  box-sizing: border-box
+  text-align:center;
+  }
+  .item{
+    margin-top:20px;
+  }
+</style>
+
+
+<h1><%=title%> carbon footprint calculator</h1>
+
+<form  id="cars" action="/CarTravel" method="post" class="form">
+
+
+  <label for="car">Select the car type: </label>
+
+
+<select name="cars" id="car" >
+    <option value="" ><%=select%></option>
+
+
+    <option value="SmallDieselCar"> SmallDieselCar</option>
+    <option value="MediumDieselCar">MediumDieselCar</option>
+    <option value="LargeDieselCar">LargeDieselCar</option>
+
+
+    <option value="MediumHybridCar">MediumHybridCar</option>
+    <option value="LargeHybridCar">LargeHybridCar</option>
+    <option value="MediumLPGCar">MediumLPGCar</option>
+    <option value="LargeLPGCar">LargeLPGCar</option>
+    <option value="SmallPetrolVan">SmallPetrolVan</option>
+<option value="MediumPetrolCar">MediumPetrolCar</option>
+<option value="LargePetrolCar">LargePetrolCar</option>
+<option value="MediumCNGCar">MediumCNGCar</option>
+<option value="LargeCNGCar">LargeCNGCar</option>
+
+</select>
+  <br>
+  <label for="distance">Enter the distance you travelled in Kms: </label>
+  <input id="dist" type="number" name="distance" min=0 value="<%=dist%>">
+<br>
+  <button  class="item btn btn primary" type="submit" name="button">calculate</button>
+  <script type="text/javascript">
+    $("#cars").submit(function(event){
+     loadAjax();
+     console.log("hii");
+     event.preventDefault()
+  })
+  </script>
+</form>
+
+
+<h2>Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
+<button class="btn btn primary" name="b"><a id="anchor" href="/Flight">Next</a></button>
+
+<%- include("partials/footer")%>

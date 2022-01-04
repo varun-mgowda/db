@@ -1,0 +1,42 @@
+<%- include("partials/header")%>
+<style media="screen">
+  #bike{
+padding-top:7px;
+padding-bottom:7px;
+  margin: 16px 0 16px 0;
+  box-sizing: border-box
+  text-align:center;
+  }
+  .anchor{
+    padding:8px;
+
+
+    border-color:black;
+    border-radius:3px;
+
+  }
+</style>
+<h1><%=title%> carbon footprint calculator </h1>
+
+<form  action="/MotorBike" method="post" >
+  <label for="bike">Select the motorbike type: </label>
+
+  <select name="bike" id="bike">
+      <option value="">--Please choose an option--</option>
+      <option value="SmallMotorBike">SmallMotorBike</option>
+      <option value="MediumMotorBike">MediumMotorBike</option>
+      <option value="LargeMotorBike">LargeMotorBike</option>
+
+  </select>
+  <br>
+  <label for="distance">Enter the distance you travelled in Kms: </label>
+  <input type="number" name="distance" min=0 >
+<br>
+
+  <button class="btn" style="margin-top:10px;" type="submit" name="button">calculate</button>
+</form>
+<h2>Total Motorbike Footprint = <%=carbon%> metric tons of CO2e.</h2>
+<button class="btn"  ><a class="anchor" href="/PublicTransit">Next</a></button>
+
+<button class="btn"  ><a class="anchor" href="/Flight">Previous</a></button>
+<%- include("partials/footer")%>

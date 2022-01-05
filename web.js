@@ -17,7 +17,10 @@ var carbonFootprint3=0;
 var carbonFootprint4=0;
 var carbonFootprintResult=0;
 var b=0;
-var a="--Please choose an option--";
+var flag=0;
+var a="";
+var msg="";
+
 app.use(express.static("public"));
 
 app.use(session({
@@ -68,6 +71,7 @@ app.get("/home",function(req,res){
 if(req.isAuthenticated()){
   res.render("home");
 }
+
 else{
 
   res.render("starter");
@@ -79,23 +83,50 @@ else{
 app.get("/CarTravel",function(req,res){
 
 console.log(a);
-    res.render("cars",{title:"Cars",carbon:carbonFootprint1,dist:b,select:a});
+    res.render("cars",{title:"Cars",carbon:carbonFootprint1,dist:b});
+b=0;
+
+});
+app.get("/CarTravelClear",function(req,res){
+
+carbonFootprint1=0;
+    res.render("cars",{title:"Cars",carbon:0,dist:0});
+
+
+});
+app.get("/FlightClear",function(req,res){
+
+carbonFootprint2=0;
+    res.render("Flight",{title:"Flight",carbon:0,dist:0});
+
 
 
 });
 
 app.get("/Flight",function(req,res){
                                                                                       //to render respective pages for specified routes
-  res.render("Flight",{title:"Flight",carbon:carbonFootprint2});
+  res.render("Flight",{title:"Flight",carbon:carbonFootprint2,dist:b});
+    b=0;
 });
 
 app.get("/MotorBike",function(req,res){
 
-  res.render("bike",{title:"MotorBike",carbon:carbonFootprint3});
+  res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:b});
+    b=0;
+});
+
+app.get("/MotorBikeClear",function(req,res){
+carbonFootprint3=0;
+  res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:0});
 });
 
 app.get("/PublicTransit",function(req,res){
-  res.render("public",{title:"Public Transport",carbon:carbonFootprint4})
+  res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:b})
+    b=0;
+})
+app.get("/publicTransitClear",function(req,res){
+  carbonFootprint4=0;
+  res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:0})
 })
 app.get("/results",function(req,res){
 carbonFootprintResult=  Math.round(carbonFootprintResult * 100) / 100
@@ -111,6 +142,11 @@ res.render("register",{msg:msg});
 })
 app.get("/login",function(req,res){
 res.render("login");
+})
+
+app.get("/clear",function(re,res){
+  flag=1;
+  res.redirect("/home");
 })
 
 
@@ -145,7 +181,6 @@ app.post("/register",function(req,res){
   });
   Data.register(user2,req.body.password,function(err,user){
     if(err){
-    var msg="The user already exists,try to login.";
     res.render("register",{msg:msg});
     }
     else{

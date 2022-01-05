@@ -45,7 +45,7 @@ padding-bottom:7px;
 </select>
   <br>
   <label for="distance">Enter the distance you travelled in Kms: </label>
-  <input id="dist" type="number" name="distance" min=0>
+  <input id="dist" type="number" name="distance" min=0 value="<%=dist%>">
 <br>
   <button  class="item btn btn primary" type="submit" name="button">calculate</button>
 
@@ -62,5 +62,7 @@ padding-bottom:7px;
 <h2>Total Public Transit Footprint = <%=carbon%> metric tons of CO2e.</h2>
 
 <button class="btn"  ><a class="anchor" href="/MotorBike">Previous</a></button>
+<button class="btn btn primary" name="b"><a id="anchor" href="/publicTransitClear">clear</a></button>
+
 
 <%- include("partials/footer")%>

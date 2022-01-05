@@ -30,7 +30,7 @@ padding-bottom:7px;
   </select>
   <br>
   <label for="distance">Enter the distance you travelled in Kms: </label>
-  <input type="number" name="distance" min=0 >
+  <input type="number" name="distance" min=0 value="<%=dist%>" >
 <br>
 
   <button class="btn" style="margin-top:10px;" type="submit" name="button">calculate</button>
@@ -39,4 +39,6 @@ padding-bottom:7px;
 <button class="btn"  ><a class="anchor" href="/PublicTransit">Next</a></button>
 
 <button class="btn"  ><a class="anchor" href="/Flight">Previous</a></button>
+<button class="btn btn primary" name="b"><a id="anchor" href="/MotorBikeClear">clear</a></button>
+
 <%- include("partials/footer")%>

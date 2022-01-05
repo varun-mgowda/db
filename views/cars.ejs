@@ -21,7 +21,7 @@ padding-bottom:7px;
   }
 </style>
 
-
+<link href="/cars.js"  type="text/javascript" />
 <h1><%=title%> carbon footprint calculator</h1>
 
 <form  id="cars" action="/CarTravel" method="post" class="form">
@@ -31,7 +31,7 @@ padding-bottom:7px;
 
 
 <select name="cars" id="car" >
-    <option value="" ><%=select%></option>
+    <option value="" >--Please choose an option--</option>
 
 
     <option value="SmallDieselCar"> SmallDieselCar</option>
@@ -67,5 +67,6 @@ padding-bottom:7px;
 
 <h2>Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
 <button class="btn btn primary" name="b"><a id="anchor" href="/Flight">Next</a></button>
+<button class="btn btn primary" name="b"><a id="anchor" href="/CarTravelClear">clear</a></button>
 
 <%- include("partials/footer")%>

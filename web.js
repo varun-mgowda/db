@@ -20,7 +20,10 @@ var b=0;
 var flag=0;
 var a="";
 var msg="";
-
+var motorDist=0;
+var carsDist=0;
+var flightDist=0;
+var publicDist=0;
 app.use(express.static("public"));
 
 app.use(session({
@@ -83,49 +86,62 @@ else{
 app.get("/CarTravel",function(req,res){
 
 console.log(a);
-    res.render("cars",{title:"Cars",carbon:carbonFootprint1,dist:b});
-b=0;
+if(req.isAuthenticated()){
+  res.render("cars",{title:"Cars",carbon:carbonFootprint1,dist:carsDist});
+
+}
+
+
 
 });
 app.get("/CarTravelClear",function(req,res){
-
+carbonFootprintResult=carbonFootprintResult-carbonFootprint1;
 carbonFootprint1=0;
+carsDist=0;
     res.render("cars",{title:"Cars",carbon:0,dist:0});
 
 
 });
 app.get("/FlightClear",function(req,res){
 
+  carbonFootprintResult-=carbonFootprint2;
 carbonFootprint2=0;
     res.render("Flight",{title:"Flight",carbon:0,dist:0});
-
+flightDist=0;
 
 
 });
 
 app.get("/Flight",function(req,res){
                                                                                       //to render respective pages for specified routes
-  res.render("Flight",{title:"Flight",carbon:carbonFootprint2,dist:b});
-    b=0;
+  res.render("Flight",{title:"Flight",carbon:carbonFootprint2,dist:flightDist});
+
 });
 
 app.get("/MotorBike",function(req,res){
 
-  res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:b});
-    b=0;
+  res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:motorDist});
+
 });
 
 app.get("/MotorBikeClear",function(req,res){
+  carbonFootprintResult-=carbonFootprint3;
+
 carbonFootprint3=0;
+motorDist=0;
   res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:0});
 });
 
 app.get("/PublicTransit",function(req,res){
-  res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:b})
-    b=0;
+
+
+  res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:publicDist})
+
 })
 app.get("/publicTransitClear",function(req,res){
+  carbonFootprintResult-=carbonFootprint4;
   carbonFootprint4=0;
+  publicDist=0;
   res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:0})
 })
 app.get("/results",function(req,res){
@@ -199,16 +215,19 @@ app.post("/:a",function(req,response){
 const z=req.params["a"];
 if(z==="CarTravel"){                     //checking the route type to pass it to the API path
      a=req.body.cars;
-
+carsDist=req.body.distance;
 }
 else if(z==="Flight"){
    a=req.body.vehical;
+   flightDist=req.body.distance;
 }
 else if(z==="PublicTransit"){
   a=req.body.public;
+  publicDist=req.body.distance;
 }
 else{
    a=req.body.bike;
+   motorDist=req.body.distance;
 }
 
 

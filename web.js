@@ -90,6 +90,9 @@ if(req.isAuthenticated()){
   res.render("cars",{title:"Cars",carbon:carbonFootprint1,dist:carsDist});
 
 }
+else{
+  res.render("starter");
+}
 
 
 
@@ -113,14 +116,25 @@ flightDist=0;
 });
 
 app.get("/Flight",function(req,res){
-                                                                                      //to render respective pages for specified routes
-  res.render("Flight",{title:"Flight",carbon:carbonFootprint2,dist:flightDist});
+  if(req.isAuthenticated()){
+    res.render("Flight",{title:"Flight",carbon:carbonFootprint2,dist:flightDist});
+  }
+  else{
+    res.render("starter");
+  }                                                                                  //to render respective pages for specified routes
 
 });
 
 app.get("/MotorBike",function(req,res){
 
-  res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:motorDist});
+  if(req.isAuthenticated()){
+    res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:motorDist});
+
+  }
+  else{
+    res.render("starter");
+  }                                                                                  //to render respective pages for specified routes
+
 
 });
 
@@ -134,8 +148,15 @@ motorDist=0;
 
 app.get("/PublicTransit",function(req,res){
 
+  if(req.isAuthenticated()){
+    res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:publicDist})
 
-  res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:publicDist})
+
+  }
+  else{
+    res.render("starter");
+  }                                                                                  //to render respective pages for specified routes
+
 
 })
 app.get("/publicTransitClear",function(req,res){
@@ -145,6 +166,7 @@ app.get("/publicTransitClear",function(req,res){
   res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:0})
 })
 app.get("/results",function(req,res){
+  console.log(carbonFootprintResult);
 carbonFootprintResult=  Math.round(carbonFootprintResult * 100) / 100
   res.render("results",{carbon:carbonFootprintResult})
 })
@@ -157,7 +179,7 @@ app.get("/register",function(req,res){
 res.render("register",{msg:msg});
 })
 app.get("/login",function(req,res){
-res.render("login");
+res.render("login",{msg:" "});
 })
 
 app.get("/clear",function(re,res){
@@ -176,18 +198,30 @@ app.post("/login",function(req,res){
     username:req.body.username,
     password:req.body.password
   })
-  req.login(user,function(err){
-    if(err){
-      console.log("err");
-    // res.render("register");
+  // req.login(user,function(err){
+  //   if(err){
+  //     console.log("err");
+  //   // res.render("register");
+  //   }
+  //   else if(!user){
+  //     res.redirect("/register");
+  //   }
+  //   else{
+  //
+  //     passport.authenticate("local")(req,res,function(){
+  //     res.redirect("/home");
+  //   });
+  //   }
+  // })
+  passport.authenticate('local', function(err, user, info) {
+   if (err) { return next(err); }
+   if (!user) { res.render("login",{msg:"User doesn't exist."});
     }
-    else{
-
-      passport.authenticate("local")(req,res,function(){
-      res.redirect("/home");
-    });
-    }
-  })
+   req.logIn(user, function(err) {
+     if (err) { return (err); }
+     return res.redirect("/home");
+   });
+ })(req, res);
 })
 
 app.post("/register",function(req,res){
@@ -197,7 +231,7 @@ app.post("/register",function(req,res){
   });
   Data.register(user2,req.body.password,function(err,user){
     if(err){
-    res.render("register",{msg:msg});
+    res.render("register",{msg:"user already found"});
     }
     else{
       passport.authenticate("local")(req,res,function(){
@@ -245,7 +279,7 @@ const options = {
 	"path": "/CarbonFootprintFrom"+z+"?distance="+b+"&"+type+"="+a,
 	"headers": {
 		"x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
-		"x-rapidapi-key": "f88e4ac70fmshd3e44f914199d9bp1f3ef8jsn908ce4e4613e",        //should get subscription after 100reqs
+		"x-rapidapi-key": "31e39c86e9mshb674da02ecd39e8p1a4fd8jsn3061fdfac797",        //should get subscription after 100reqs
 		"useQueryString": true
 	}
 };

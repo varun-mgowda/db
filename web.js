@@ -25,6 +25,7 @@ var carsDist=0;
 var flightDist=0;
 var publicDist=0;
 var _id="";
+var cd=0,cf=0,ff=0,fd=0,md=0,mf=0,pd=0,pf=0;
 // var md=0;
 
 app.use(express.static("public"));
@@ -45,15 +46,18 @@ const DataSchema=new mongoose.Schema({
   password: String,
   Car:{
     carType:String,
-    distance:Number
+    distance:Number,
+    footprint:Number
   },
   Flight:{
     flightType:String,
-    distance:String
+    distance:Number,
+    footprint:Number
   },
   Public:{
     vehicleType:String,
-    distance:Number
+    distance:Number,
+    footprint:Number
   },
   Motor:{
     motorType:String,
@@ -110,7 +114,14 @@ app.get("/CarTravel",function(req,res){
 
 console.log(a);
 if(req.isAuthenticated()){
-  res.render("cars",{title:"Cars",carbon:carbonFootprint1,dist:carsDist});
+  Data.findOne({_id:_id}, function (err, user) {
+
+    cd=user.Car.distance;
+    cf=user.Car.footprint;
+
+
+  res.render("cars",{title:"Cars",carbon:cf,dist:cd});
+  });
 
 }
 else{
@@ -124,27 +135,62 @@ app.get("/CarTravelClear",function(req,res){
 carbonFootprintResult=carbonFootprintResult-carbonFootprint1;
 carbonFootprint1=0;
 carsDist=0;
+const motor1={
+  carType:"",
+  distance:carsDist,
+  footprint:carbonFootprint1
+}
+
+
+Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
+  if(err){
+    console.log(err);
+  }
+
+})
     res.render("cars",{title:"Cars",carbon:0,dist:0});
 
 
 });
-app.get("/FlightClear",function(req,res){
 
-  carbonFootprintResult-=carbonFootprint2;
-carbonFootprint2=0;
-    res.render("Flight",{title:"Flight",carbon:0,dist:0});
-flightDist=0;
-
-
-});
 
 app.get("/Flight",function(req,res){
   if(req.isAuthenticated()){
-    res.render("Flight",{title:"Flight",carbon:carbonFootprint2,dist:flightDist});
+    Data.findOne({_id:_id}, function (err, user) {
+
+      fd=user.Flight.distance;
+      ff=user.Flight.footprint;
+
+        res.render("Flight",{title:"Flight",carbon:ff,dist:fd});
+    });
   }
   else{
     res.render("starter");
   }                                                                                  //to render respective pages for specified routes
+
+});
+
+app.get("/FlightClear",function(req,res){
+
+  carbonFootprintResult-=carbonFootprint2;
+carbonFootprint2=0;
+flightDist=0;
+const motor1={
+  flightType:"",
+  distance:flightDist,
+  footprint:carbonFootprint2
+}
+
+
+Data.findByIdAndUpdate(_id, { $set: { Flight: motor1 }}, function(err){
+  if(err){
+    console.log(err);
+  }
+
+})
+    res.render("Flight",{title:"Flight",carbon:0,dist:0});
+
+
 
 });
 
@@ -153,8 +199,8 @@ app.get("/MotorBike",function(req,res){
   if(req.isAuthenticated()){
   Data.findOne({_id:_id}, function (err, user) {
 console.log(user.Motor.distance);
-  var  md=user.Motor.distance;
-  var  mf=user.Motor.footprint;
+    md=user.Motor.distance;
+    mf=user.Motor.footprint;
 
       res.render("bike",{title:"MotorBike",carbon:mf,dist:md});
   });
@@ -190,12 +236,17 @@ res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:0});
 
 });
 
+
 app.get("/PublicTransit",function(req,res){
 
   if(req.isAuthenticated()){
-    res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:publicDist})
+    Data.findOne({_id:_id}, function (err, user) {
 
+      pd=user.Public.distance;
+      pf=user.Public.footprint;
 
+    res.render("public",{title:"Public Transport",carbon:pf,dist:pd})
+    });
   }
   else{
     res.render("starter");
@@ -207,8 +258,23 @@ app.get("/publicTransitClear",function(req,res){
   carbonFootprintResult-=carbonFootprint4;
   carbonFootprint4=0;
   publicDist=0;
+  const motor1={
+    vehicleType:"",
+    distance:publicDist,
+    footprint:carbonFootprint4
+  }
+
+
+  Data.findByIdAndUpdate(_id, { $set: { Public: motor1 }}, function(err){
+    if(err){
+      console.log(err);
+    }
+
+  })
   res.render("public",{title:"Public Transport",carbon:carbonFootprint4,dist:0})
 })
+
+
 app.get("/results",function(req,res){
   console.log(carbonFootprintResult);
 carbonFootprintResult=  Math.round(carbonFootprintResult * 100) / 100
@@ -231,11 +297,12 @@ app.get("/clear",function(re,res){
   res.redirect("/home");
 })
 
+app.get("/logout", function (req, res){
+  req.session.destroy(function (err) {
+    res.render("starter"); //Inside a callback… bulletproof!
+  });
+});
 
-app.get("/logout",function(req,res){
-  req.logout();
-  res.render("home");
-})
 
 app.post("/login",function(req,res){
 
@@ -243,21 +310,7 @@ app.post("/login",function(req,res){
     username:req.body.username,
 
   })
-  // req.login(user,function(err){
-  //   if(err){
-  //     console.log("err");
-  //   // res.render("register");
-  //   }
-  //   else if(!user){
-  //     res.redirect("/register");
-  //   }
-  //   else{
-  //
-  //     passport.authenticate("local")(req,res,function(){
-  //     res.redirect("/home");
-  //   });
-  //   }
-  // })
+
   passport.authenticate('local', function(err, user, info) {
    if (err) { return next(err); }
    if (!user) { res.render("login",{msg:"User doesn't exist."});
@@ -274,7 +327,7 @@ app.post("/register",function(req,res){
 
   const user2=new Data({
     username:req.body.username,
-  
+
   });
   Data.register(user2,req.body.password,function(err,user){
     if(err){
@@ -287,6 +340,7 @@ app.post("/register",function(req,res){
     }
   })
 })
+
 
 
 
@@ -345,24 +399,27 @@ const request = https.request(options, function (res) {
   const y=["/",z];
   const x=y.join('');                                                     //forming redirecting route
  if(z==="Flight"){
-   const flight={
-     flightType:a,
-     distance:flightDist
-
-   }
-   Data.findByIdAndUpdate(_id, { $set: {Flight: flight }}, options, function(err){
-     if(err){
-       console.log(err);
-     }
-   })
 
 carbonFootprint2=JSON.parse(body).carbonEquivalent;
 
 if(req.body.a==="two"){
   carbonFootprint2=carbonFootprint2*2;
 
-}                                                                          //updating the corresponding result variables
+}
+const flight={
+  flightType:a,
+  distance:flightDist,
+  footprint:carbonFootprint2
+
+}
 carbonFootprintResult+=carbonFootprint2;
+Data.findByIdAndUpdate(_id, { $set: {Flight: flight }}, options, function(err){
+  if(err){
+    console.log(err);
+  }
+})
+                                                                   //updating the corresponding result variables
+
  }
 else if(z==="CarTravel"){
   carbonFootprint1=JSON.parse(body).carbonEquivalent;
@@ -370,7 +427,8 @@ else if(z==="CarTravel"){
 
   const car={
     carType:a,
-    distance:carsDist
+    distance:carsDist,
+    footprint:carbonFootprint1
   }
   Data.findByIdAndUpdate(_id, { $set: { Car: car }}, options, function(err){
     if(err){
@@ -384,7 +442,8 @@ else if(z==="PublicTransit"){
     carbonFootprintResult+=carbonFootprint4;
     const public={
       vehicleType:a,
-      distance:publicDist
+      distance:publicDist,
+      footprint:carbonFootprint4
     }
     Data.findByIdAndUpdate(_id, { $set: { Public: public }}, options, function(err){
       if(err){

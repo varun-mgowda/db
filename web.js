@@ -24,6 +24,7 @@ var motorDist=0;
 var carsDist=0;
 var flightDist=0;
 var publicDist=0;
+var _id="";
 app.use(express.static("public"));
 
 app.use(session({
@@ -39,7 +40,26 @@ app.use(passport.session());
 mongoose.connect("mongodb://localhost:27017/usersData");
 const DataSchema=new mongoose.Schema({
   username: String,
-  password: String
+  password: String,
+  Car:{
+    carType:String,
+    distance:Number
+  },
+  Flight:{
+    flightType:String,
+    distance:String
+  },
+  Public:{
+    vehicleType:String,
+    distance:Number
+  },
+  Motor:{
+    motorType:String,
+    distance:String
+  },
+  Result:{
+    total:Number
+  }
 });
 
 DataSchema.plugin(passportLocalMongoose);
@@ -194,6 +214,7 @@ app.get("/logout",function(req,res){
 })
 
 app.post("/login",function(req,res){
+
   const user=new Data({
     username:req.body.username,
     password:req.body.password
@@ -219,12 +240,14 @@ app.post("/login",function(req,res){
     }
    req.logIn(user, function(err) {
      if (err) { return (err); }
+     _id=user._id;
      return res.redirect("/home");
    });
  })(req, res);
 })
 
 app.post("/register",function(req,res){
+
   const user2=new Data({
     username:req.body.username,
     password:req.body.password
@@ -298,6 +321,15 @@ const request = https.request(options, function (res) {
   const y=["/",z];
   const x=y.join('');                                                     //forming redirecting route
  if(z==="Flight"){
+   const flight={
+     flightType:a,
+     distance:flightDist
+   }
+   Data.findByIdAndUpdate(_id, { $set: {Flight: flight }}, options, function(err){
+     if(err){
+       console.log(err);
+     }
+   })
 
 carbonFootprint2=JSON.parse(body).carbonEquivalent;
 
@@ -310,15 +342,53 @@ carbonFootprintResult+=carbonFootprint2;
 else if(z==="CarTravel"){
   carbonFootprint1=JSON.parse(body).carbonEquivalent;
   carbonFootprintResult+=carbonFootprint1;
+
+  const car={
+    carType:a,
+    distance:carsDist
+  }
+  Data.findByIdAndUpdate(_id, { $set: { Car: car }}, options, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
 }
 else if(z==="PublicTransit"){
     carbonFootprint4=JSON.parse(body).carbonEquivalent;
     carbonFootprintResult+=carbonFootprint4;
+    const public={
+      vehicleType:a,
+      distance:publicDist
+    }
+    Data.findByIdAndUpdate(_id, { $set: { Public: public }}, options, function(err){
+      if(err){
+        console.log(err);
+      }
+    })
 }
 else{
   carbonFootprint3=JSON.parse(body).carbonEquivalent;
   carbonFootprintResult+=carbonFootprint3;
+  const motor={
+    motorType:a,
+    distance:motorDist
+  }
+  Data.findByIdAndUpdate(_id, { $set: { Motor: motor }}, options, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
 }
+const result={
+total:carbonFootprintResult
+}
+Data.findByIdAndUpdate(_id, { $set: { Result:result }}, options, function(err){
+  if(err){
+    console.log(err);
+  }
+})
 
   response.redirect(x);                                                     //redirectinig to corresponding routes
 	});

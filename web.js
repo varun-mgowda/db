@@ -25,6 +25,8 @@ var carsDist=0;
 var flightDist=0;
 var publicDist=0;
 var _id="";
+// var md=0;
+
 app.use(express.static("public"));
 
 app.use(session({
@@ -55,7 +57,8 @@ const DataSchema=new mongoose.Schema({
   },
   Motor:{
     motorType:String,
-    distance:String
+    distance:String,
+    footprint:Number
   },
   Result:{
     total:Number
@@ -90,7 +93,7 @@ app.get("/",function(req,res){
 
 app.get("/home",function(req,res){
 
-
+entry=req.body.entry;
 if(req.isAuthenticated()){
   res.render("home");
 }
@@ -148,7 +151,14 @@ app.get("/Flight",function(req,res){
 app.get("/MotorBike",function(req,res){
 
   if(req.isAuthenticated()){
-    res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:motorDist});
+  Data.findOne({_id:_id}, function (err, user) {
+console.log(user.Motor.distance);
+  var  md=user.Motor.distance;
+  var  mf=user.Motor.footprint;
+
+      res.render("bike",{title:"MotorBike",carbon:mf,dist:md});
+  });
+
 
   }
   else{
@@ -163,7 +173,21 @@ app.get("/MotorBikeClear",function(req,res){
 
 carbonFootprint3=0;
 motorDist=0;
-  res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:0});
+const motor1={
+  motorType:"",
+  distance:motorDist,
+  footprint:carbonFootprint3
+}
+
+
+Data.findByIdAndUpdate(_id, { $set: { Motor: motor1 }}, function(err){
+  if(err){
+    console.log(err);
+  }
+
+})
+res.render("bike",{title:"MotorBike",carbon:carbonFootprint3,dist:0});
+
 });
 
 app.get("/PublicTransit",function(req,res){
@@ -217,7 +241,7 @@ app.post("/login",function(req,res){
 
   const user=new Data({
     username:req.body.username,
-    password:req.body.password
+
   })
   // req.login(user,function(err){
   //   if(err){
@@ -250,7 +274,7 @@ app.post("/register",function(req,res){
 
   const user2=new Data({
     username:req.body.username,
-    password:req.body.password
+  
   });
   Data.register(user2,req.body.password,function(err,user){
     if(err){
@@ -324,6 +348,7 @@ const request = https.request(options, function (res) {
    const flight={
      flightType:a,
      distance:flightDist
+
    }
    Data.findByIdAndUpdate(_id, { $set: {Flight: flight }}, options, function(err){
      if(err){
@@ -372,7 +397,8 @@ else{
   carbonFootprintResult+=carbonFootprint3;
   const motor={
     motorType:a,
-    distance:motorDist
+    distance:motorDist,
+    footprint:carbonFootprint3
   }
   Data.findByIdAndUpdate(_id, { $set: { Motor: motor }}, options, function(err){
     if(err){

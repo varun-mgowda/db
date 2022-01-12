@@ -1,6 +1,5 @@
 <%- include("partials/header")%>
-<h1>Your Total carbon footprint is : <%=carbon%> metric tons of CO2e.</h1>
-<%- include("partials/footer")%>
+
 <style media="screen">
   .a{
     display:flex;
@@ -24,7 +23,65 @@
   .d{
   margin-left:80%;
   }
+  #anchor{
+    padding:8px;
+
+
+    border-color:black;
+    border-radius:3px;
+
+  }
+   #car{
+ padding-top:7px;
+ padding-bottom:7px;
+   margin: 16px 0 16px 0;
+   box-sizing: border-box
+   text-align:center;
+   }
+   .item{
+     margin-top:20px;
+   }
+   .card{
+   margin:auto;
+   text-align:center;
+   width:50%;
+   border-radius:2%;
+   background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
+
+ color:white;
+   }
+   .card-header{
+     background-color:#5CB85C;
+
+   }
+    body{
+     background: #f6f5f7;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     font-family: 'Montserrat', sans-serif;
+     height: 100vh;
+     margin: 0 0 50px;
+     background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
+     background-position: center center;
+
+     background-repeat: no-repeat;
+
+     background-size: 100%;
+
+   }
+   hr{
+      border: 1px solid white;
+   }
+   button{
+     color:green;
+   }
+   a{
+     color:white;
+   }
 </style>
+<h1>Your Total carbon footprint is : <%=carbon%> metric tons of CO2e.</h1>
 
 <div class="a">
   <div class="c">
@@ -50,3 +107,4 @@
 
 </div>
 <button class="d btn btn primary" name="b"><a id="anchor" href="/logout">Logout</a></button>
+<button class="d btn btn primary" name="b"><a id="anchor" href="/clear">Clear</a></button>

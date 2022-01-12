@@ -19,54 +19,104 @@ padding-bottom:7px;
   .item{
     margin-top:20px;
   }
+  .card{
+  margin:auto;
+  text-align:center;
+  width:50%;
+  border-radius:2%;
+  background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
+
+color:white;
+  }
+  .card-header{
+    background-color:#5CB85C;
+
+  }
+   body{
+    background: #f6f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    margin: 0 0 50px;
+    background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
+    background-position: center center;
+
+    background-repeat: no-repeat;
+
+    background-size: 100%;
+
+  }
+  hr{
+     border: 1px solid white;
+  }
+  button{
+    color:green;
+  }
+  a{
+    color:black;
+  }
 </style>
 
 <link href="/cars.js"  type="text/javascript" />
-<h1><%=title%> carbon footprint calculator</h1>
-
-<form  id="cars" action="/CarTravel" method="post" class="form">
+<body>
 
 
-  <label for="car">Select the car type: </label>
+<div class="card">
+  <h1 class="card-header" >Carbon Footprint calculator</h1>
+  <div class="card-body">
+    <h5 class="card-title a"><%=title%> carbon footprint </h5>
+
+    <form  id="cars" action="/CarTravel" method="post" class="form">
 
 
-<select name="cars" id="car" >
-    <option value="" >--Please choose an option--</option>
+      <label for="car">Select the car type: </label>
 
 
-    <option value="SmallDieselCar"> SmallDieselCar</option>
-    <option value="MediumDieselCar">MediumDieselCar</option>
-    <option value="LargeDieselCar">LargeDieselCar</option>
+    <select  name="cars" id="car" >
+        <option value="" >--Please choose an option--</option>
+
+        <% if(sel==="SmallDieselCar"){ %>
+          <option select selected value="SmallDieselCar">SmallDieselCar</option>
+        <%} else if(sel==="MediumDieselCar"){ %>
+  <option select selected value="MediumDieselCar">MediumDieselCar</option>
+<%}%>
+<option  value="SmallDieselCar">SmallDieselCar</option>
+
+        <option  value="MediumDieselCar">MediumDieselCar</option>
+        <option value="LargeDieselCar">LargeDieselCar</option>
 
 
-    <option value="MediumHybridCar">MediumHybridCar</option>
-    <option value="LargeHybridCar">LargeHybridCar</option>
-    <option value="MediumLPGCar">MediumLPGCar</option>
-    <option value="LargeLPGCar">LargeLPGCar</option>
-    <option value="SmallPetrolVan">SmallPetrolVan</option>
-<option value="MediumPetrolCar">MediumPetrolCar</option>
-<option value="LargePetrolCar">LargePetrolCar</option>
-<option value="MediumCNGCar">MediumCNGCar</option>
-<option value="LargeCNGCar">LargeCNGCar</option>
+        <option value="MediumHybridCar">MediumHybridCar</option>
+        <option value="LargeHybridCar">LargeHybridCar</option>
+        <option value="MediumLPGCar">MediumLPGCar</option>
+        <option value="LargeLPGCar">LargeLPGCar</option>
+        <option value="SmallPetrolVan">SmallPetrolVan</option>
+    <option value="MediumPetrolCar">MediumPetrolCar</option>
+    <option value="LargePetrolCar">LargePetrolCar</option>
+    <option value="MediumCNGCar">MediumCNGCar</option>
+    <option value="LargeCNGCar">LargeCNGCar</option>
 
-</select>
-  <br>
-  <label for="distance">Enter the distance you travelled in Kms: </label>
-  <input id="dist" type="number" name="distance" min=0 value="<%=dist%>">
-<br>
-  <button  class="item btn btn primary" type="submit" name="button">calculate</button>
-  <script type="text/javascript">
-    $("#cars").submit(function(event){
-     loadAjax();
-     console.log("hii");
-     event.preventDefault()
-  })
-  </script>
-</form>
+    </select>
+      <br>
+      <label class="card-text" for="distance" >Enter the distance you travelled in Kms: </label>
+      <input id="dist" type="number" name="distance" min=0 placeholder="0" value="<%=dist%>">
+      </form>
+      <br />
+      <button  class="item btn btn-light" type="submit" name="button">calculate</button>
+<hr >
+      <h2 style="margin-top:10px;" >Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
+      <button class="btn btn-light " name="b"><a id="anchor"  href="/Flight">Next</a></button>
+      <button class="btn  btn-light" name="b"><a id="anchor" href="/CarTravelClear">clear</a></button>
+  </div>
+</div>
 
 
-<h2>Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
-<button class="btn btn primary" name="b"><a id="anchor" href="/Flight">Next</a></button>
-<button class="btn btn primary" name="b"><a id="anchor" href="/CarTravelClear">clear</a></button>
 
+
+
+
+</body>
 <%- include("partials/footer")%>

@@ -20,6 +20,7 @@ var b=0;
 var flag=0;
 var a="";
 var msg="";
+var msgb="";
 var motorDist=0;
 var carsDist=0;
 var flightDist=0;
@@ -61,7 +62,12 @@ const DataSchema=new mongoose.Schema({
   },
   Motor:{
     motorType:String,
-    distance:String,
+    distance:Number,
+    footprint:Number
+  },
+  Car1:{
+    carType:String,
+    distance:Number,
     footprint:Number
   },
   Result:{
@@ -107,8 +113,9 @@ else{
   res.render("starter");
 }
 
-
-
+})
+app.get("/next",function(req,res){
+  res.render("next");
 })
 app.get("/CarTravel",function(req,res){
 
@@ -118,9 +125,9 @@ if(req.isAuthenticated()){
 
     cd=user.Car.distance;
     cf=user.Car.footprint;
-
-
-  res.render("cars",{title:"Cars",carbon:cf,dist:cd});
+    ct=user.Car.carType;
+console.log(user.Car.carType);
+  res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct});
   });
 
 }
@@ -155,7 +162,7 @@ Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
   }
 
 })
-    res.render("cars",{title:"Cars",carbon:0,dist:0});
+    res.render("cars",{title:"Cars",carbon:0,dist:0,sel:"--Please choose an option--"});
 
 
 });
@@ -167,8 +174,8 @@ app.get("/Flight",function(req,res){
 
       fd=user.Flight.distance;
       ff=user.Flight.footprint;
-
-        res.render("Flight",{title:"Flight",carbon:ff,dist:fd});
+      ft=user.Flight.flightType;
+        res.render("Flight",{title:"Flight",carbon:ff,dist:fd,sel:ft});
     });
   }
   else{
@@ -202,7 +209,7 @@ Data.findByIdAndUpdate(_id, { $set: { Flight: motor1 }}, function(err){
   }
 
 })
-    res.render("Flight",{title:"Flight",carbon:0,dist:0});
+    res.render("Flight",{title:"Flight",carbon:0,dist:0,sel:"--Please choose an option--"});
 
 
 
@@ -320,17 +327,90 @@ app.get("/reduce",function(req,res){
 })
 
 app.get("/register",function(req,res){
-res.render("register",{msg:msg});
+res.render("starter",{msgb:" "});
 })
 app.get("/login",function(req,res){
-res.render("login",{msg:" "});
+res.render("starter",{msg:" "});
 })
+//--------------------------------------------------
 
 app.get("/clear",function(re,res){
-  flag=1;
-  res.redirect("/home");
+
+carbonFootprintResult=0;
+
+const result={
+total:carbonFootprintResult
+}
+Data.findByIdAndUpdate(_id, { $set: { Result:result }}, function(err){
+  if(err){
+    console.log(err);
+  }
 })
 
+
+const motor1={
+  carType:"",
+  distance:0,
+  footprint:0
+}
+
+
+Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
+  if(err){
+    console.log(err);
+  }
+
+})
+
+
+  const motor2={
+    motorType:"",
+    distance:0,
+    footprint:0
+  }
+
+
+  Data.findByIdAndUpdate(_id, { $set: { Motor: motor2 }}, function(err){
+    if(err){
+      console.log(err);
+    }
+
+  })
+
+  const motor3={
+    flightType:"",
+    distance:0,
+    footprint:0
+  }
+
+
+  Data.findByIdAndUpdate(_id, { $set: { Flight: motor3 }}, function(err){
+    if(err){
+      console.log(err);
+    }
+
+  })
+
+
+  const motor4={
+    vehicleType:"",
+    distance:0,
+    footprint:0
+  }
+
+
+  Data.findByIdAndUpdate(_id, { $set: { Public: motor4 }}, function(err){
+    if(err){
+      console.log(err);
+    }
+
+  })
+res.redirect("/CarTravel");
+
+})
+
+
+//--------------------------------------------------------
 app.get("/logout", function (req, res){
   req.session.destroy(function (err) {
     res.render("starter"); //Inside a callback… bulletproof!
@@ -347,7 +427,7 @@ app.post("/login",function(req,res){
 
   passport.authenticate('local', function(err, user, info) {
    if (err) { return next(err); }
-   if (!user) { res.render("login",{msg:"User doesn't exist."});
+   if (!user) { res.render("starter",{msg:"User doesn't exist."});
     }
    req.logIn(user, function(err) {
      if (err) { return (err); }
@@ -365,7 +445,7 @@ app.post("/register",function(req,res){
   });
   Data.register(user2,req.body.password,function(err,user){
     if(err){
-    res.render("register",{msg:"user already found"});
+    res.render("starter",{msgb:"user already found"});
     }
     else{
       passport.authenticate("local")(req,res,function(){
@@ -414,7 +494,7 @@ const options = {
 	"path": "/CarbonFootprintFrom"+z+"?distance="+b+"&"+type+"="+a,
 	"headers": {
 		"x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
-		"x-rapidapi-key": "31e39c86e9mshb674da02ecd39e8p1a4fd8jsn3061fdfac797",        //should get subscription after 100reqs
+    "x-rapidapi-key": "76fc72b322msh69688f315897bc5p18b7ddjsn73bed7f0038f",
 		"useQueryString": true
 	}
 };

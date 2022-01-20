@@ -1,110 +1,43 @@
 <%- include("partials/header")%>
+<style >
+	body{
 
-<style media="screen">
-  .a{
-    display:flex;
-    flex-direction:row;
-  justify-content:center;
-
-  }
-  .b{
-    display:flex;
-    flex-direction:column-reverse;
-    width:100px;
-    margin-left:
-
-  }
-  .c{
-    display:flex;
-    flex-direction:column-reverse;
-    width:75px;
-
-  }
-  .d{
-  margin-left:80%;
-  }
-  #anchor{
-    padding:8px;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-color:#5CB85C;
+		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
 
 
-    border-color:black;
-    border-radius:3px;
 
-  }
-   #car{
- padding-top:7px;
- padding-bottom:7px;
-   margin: 16px 0 16px 0;
-   box-sizing: border-box
-   text-align:center;
-   }
-   .item{
-     margin-top:20px;
-   }
-   .card{
-   margin:auto;
-   text-align:center;
-   width:50%;
-   border-radius:2%;
-   background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
-
- color:white;
-   }
-   .card-header{
-     background-color:#5CB85C;
-
-   }
-    body{
-     background: #f6f5f7;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     flex-direction: column;
-     font-family: 'Montserrat', sans-serif;
-     height: 100vh;
-     margin: 0 0 50px;
-     background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
-     background-position: center center;
-
-     background-repeat: no-repeat;
-
-     background-size: 100%;
-
-   }
-   hr{
-      border: 1px solid white;
-   }
-   button{
-     color:green;
-   }
-   a{
-     color:white;
-   }
+	 }
 </style>
+
 <h1>Your Total carbon footprint is : <%=carbon%> metric tons of CO2e.</h1>
+<div class="">
+	<div class="">
+		<% if(carbon>150){ %>
 
-<div class="a">
-  <div class="c">
-    <% if(carbon>150){ %>
+		<img style="height:150px;" src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
+		<label for="">Your footprint</label>
+		<% } else if(carbon <150){%>
 
-    <img style="height:150px;"src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
-      <label for="">Your footprint</label>
-  <% } else if(carbon <150){%>
-
-    <img style="height:50px;"src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
-      <label for="">Your footprint</label>
-  <%}%>
+		<img style="height:50px;" src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
+		<label for="">Your footprint</label>
+		<%}%>
   </div>
-  <div class="b">
+  <div class="">
     <img style="height:200px;"src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
   <label for="">Your country footprint</label>
   </div>
-  <div class="c">
+  <div class="">
     <img style="height:70px;"src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
   <label for="">Global footprint</label>
   </div>
-
-
 </div>
-<button class="d btn btn primary" name="b"><a id="anchor" href="/logout">Logout</a></button>
-<button class="d btn btn primary" name="b"><a id="anchor" href="/clear">Clear</a></button>
+<div class="np-clear nextprev">
+<a class="np-left " href="/logout">❮ Logout</a>
+<a class="np-last" href="/clear">Clear 🗘</a>
+</div>
+<%- include("partials/footer")%>

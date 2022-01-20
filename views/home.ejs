@@ -1,60 +1,29 @@
+<%- include("partials/header")%>
+<style >
+	body{
 
-<style>
-body{
-  background: #f6f5f7;
-  display: flex;
-  justify-content: center;
-  align-items: left;
-  flex-direction: column;
-  font-family: 'Montserrat', sans-serif;
-  height: 100vh;
-  margin: 0 0 50px;
-  background-image: url("https://wallpapermemory.com/uploads/847/green-background-full-hd-1920x1080-127616.jpg");
-  background-position: center center;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-color:#5CB85C;
+		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
 
-  background-repeat: no-repeat;
 
-  background-size: 100%;
-color: white;
 
-}
-button{
-
-z-index:1;
-
-margin-top:20px;
-padding:15px;
-border-radius:5px;
-text-align:center;
-}
-img{
-  width:100%;
-  height:100%;
-  /* opacity:0.5; */
-}
-
+	 }
 </style>
-
-
-<body>
-  <!-- <img src="https://www.e2.rs/wp-content/uploads/2021/02/Akcioni-planovi-za-zeleni-grad-i-odrzivu-energiju.jpg" alt=""> -->
-<div style="margin-left:20px;">
-
 
 <h1>Welcome To</h1>
 <h1 style=" font-size:50px; font-family:cantarell; color: bl;"><b>CARBON FOOTPRINT CALCULATOR</b></h1>
-  <h3> Carbon Footprint Calculator For Individuals And Households</h3>
-  <form  action="/CarTravel" method="post">
+<h3> Carbon Footprint Calculator For Individuals And Households</h3>
+<!-- <form action="/CarTravel" method="post">
 
-    <!-- <select  name="entries" value="entry">
-    <option value="one">1</option>
-    <option value="two">2</option>
-    </select> -->
-     <button   type="submit" name="button" class="btn btn-primary">Lets calculate</button>
+  <button type="submit" name="button" class="np-clea">Lets Calculate</button>
 
 
-
-  </form>
-  </div>
-  </body>
-  <%- include("partials/footer")%>
+</form> -->
+<div class="np-clear nextprev">
+<a class="np-clea" href="/CarTravel">Lets Calculate</a>
+</div>
+<%- include("partials/footer")%>

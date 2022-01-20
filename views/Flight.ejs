@@ -1,114 +1,57 @@
-
 <%- include("partials/header")%>
-
 <style >
- #anchor{
-   padding:8px;
+	body{
+
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-color:#5CB85C;
+		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
 
 
-   border-color:black;
-   border-radius:3px;
 
- }
-  #car{
-padding-top:7px;
-padding-bottom:7px;
-  margin: 16px 0 16px 0;
-  box-sizing: border-box
-  text-align:center;
-  }
-  .item{
-    margin-top:20px;
-  }
-  .card{
-  margin:auto;
-  text-align:center;
-  width:50%;
-  border-radius:2%;
-  background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
-
-color:white;
-  }
-  .card-header{
-    background-color:#5CB85C;
-
-  }
-   body{
-    background: #f6f5f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-family: 'Montserrat', sans-serif;
-    height: 100vh;
-    margin: 0 0 50px;
-    background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
-    background-position: center center;
-
-    background-repeat: no-repeat;
-
-    background-size: 100%;
-
-  }
-  hr{
-     border: 1px solid white;
-  }
-  button{
-    color:green;
-  }
-  a{
-    color:black;
-  }
+	 }
 </style>
 
+<h1>Carbon Footprint calculator</h1>
 
-<body>
+<h5><%=title%> carbon footprint </h5>
 
+<form action="/Flight" method="post">
+	<div name="ways">
+		<label for="one">One way flight</label>
+		<input type="radio" name="a" id="one" value="one" checked=checked>
+		<label for="two">Two way flight</label>
+		<input type="radio" name="a" id="two" value="two">
 
-<div class="card">
-  <h1 class="card-header" >Carbon Footprint calculator</h1>
-  <div class="card-body">
-    <h5 class="card-title a"><%=title%> carbon footprint </h5>
+	</div>
 
-    <form  action="/Flight" method="post" >
-      <div name="ways">
-        <label  for="one">One way flight</label>
-        <input type="radio" name="a" id="one" value="one" checked=checked>
-        <label  for="two">Two way flight</label>
-        <input type="radio" name="a" id="two" value="two">
+	<label for="vehical">Select the Flight type: </label>
+	<select name="vehical" id="vehical">
+		<option value="">--Please choose an option--</option>
+		<option value="DomesticFlight">DomesticFlight</option>
+		<option value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
+		<option value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>
+		<option value="LongEconomyClassFlight">LongEconomyClassFlight</option>
+		<option value="LongPremiumClassFlight">LongPremiumClassFlight</option>
+		<option value="LongBusinessClassFlight">LongBusinessClassFlight</option>
+		<option value="LongFirstClassFlight">LongFirstClassFlight</option>
+	</select>
+	<br>
+	<label for="distance">Enter the distance you travelled in Kms: </label>
+	<input type="number" name="distance" min=0 value="<%=dist%>">
+	<br>
 
-      </div>
-
-      <label for="vehical">Select the Flight type: </label>
-      <select name="vehical" id="vehical">
-          <option value="">--Please choose an option--</option>
-          <option value="DomesticFlight">DomesticFlight</option>
-          <option value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
-          <option value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>
-          <option value="LongEconomyClassFlight">LongEconomyClassFlight</option>
-          <option value="LongPremiumClassFlight">LongPremiumClassFlight</option>
-          <option value="LongBusinessClassFlight">LongBusinessClassFlight</option>
-          <option value="LongFirstClassFlight">LongFirstClassFlight</option>
-      </select>
-      <br>
-      <label for="distance">Enter the distance you travelled in Kms: </label>
-      <input type="number" name="distance" min=0 value="<%=dist%>" >
-    <br>
-
-      <button style="margin-top:10px;"  type="submit" name="button" class="form1 btn">calculate</button>
-    </form>
-    <h2>Total Flights Footprint = <%=carbon%> metric tons of CO2e.</h2>
-
-      <button type="button" class="btn btn-light" ><a id="anchor" href="/CarTravel">Previous</a></button>
-        <button type="button" class="btn btn-light" ><a id="anchor" href="/MotorBike">Next</a></button>
-      <button class="btn  btn-light" name="b"><a id="anchor" href="/CarTravelClear">clear</a></button>
+  <div class="np-clear nextprev">
+  <button type="submit" name="button" class="np-clea">Calculate</button>
   </div>
+  <hr>
+</form>
+<h2 style="color:white;">Total Flights Footprint = <%=carbon%> metric tons of CO2e.</h2>
+<div class="np-clear nextprev">
+<a class="np-left " href="/CarTravel">❮ Previous</a>
+<a class="np-right" href="/MotorBike">Next ❯</a>
+<a class="np-clea" href="/FlightClear">Clear 🗘</a>
 </div>
-
-
-
-
-
-
-</body>
 <%- include("partials/footer")%>

@@ -1,68 +1,48 @@
 <%- include("partials/header")%>
-
 <style >
- #anchor{
-   padding:8px;
+	body{
+
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-color:#5CB85C;
+		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
 
 
-   border-color:black;
-   border-radius:3px;
 
- }
-  #public{
-padding-top:7px;
-padding-bottom:7px;
-  margin: 16px 0 16px 0;
-  box-sizing: border-box
-  text-align:center;
-  }
-  .item{
-    margin-top:20px;
-  }
+	 }
 </style>
 
 
-<h1><%=title%> carbon footprint calculator</h1>
+<h1>Carbon Footprint calculator</h1>
+<h5><%=title%> carbon footprint </h5>
 
-<form  id="public" action="/PublicTransit" method="post" class="form">
-
-
-  <label for="car">Select the type of transportation : </label>
-
-
-<select name="public" id="public">
-    <option value="">--Please choose an option--</option>
-
-
-    <option value="Taxi">Taxi</option>
-    <option value="ClassicBus">ClassicBus</option>
-    <option value="Coach">Coach</option>
-    <option value="NationalTrain">NationalTrain</option>
-    <option value="LightRail">LightRail</option>
-    <option value="EcoBus">EcoBus</option>
-    <option value="FerryOnFoot">FerryOnFoot</option>
-
-</select>
-  <br>
-  <label for="distance">Enter the distance you travelled in Kms: </label>
-  <input id="dist" type="number" name="distance" min=0 value="<%=dist%>">
-<br>
-  <button  class="item btn btn primary" type="submit" name="button">calculate</button>
-
+<form id="public" action="/PublicTransit" method="post" class="form">
+	<label for="car">Select the type of transportation : </label>
+	<select name="public" id="public">
+		<option value="">--Please choose an option--</option>
+		<option value="Taxi">Taxi</option>
+		<option value="ClassicBus">ClassicBus</option>
+		<option value="Coach">Coach</option>
+		<option value="NationalTrain">NationalTrain</option>
+		<option value="LightRail">LightRail</option>
+		<option value="EcoBus">EcoBus</option>
+		<option value="FerryOnFoot">FerryOnFoot</option>
+	</select>
+	<br>
+	<label for="distance">Enter the distance you travelled in Kms: </label>
+	<input id="dist" type="number" name="distance" min=0 value="<%=dist%>">
+	<br>
+  <div class="np-clear nextprev">
+  <button type="submit" name="button" class="np-clea">Calculate</button>
+  </div>
 </form>
-<script type="text/javascript">
-  $("#cars").submit(function(event){
-   loadAjax();
-   console.log("hii");
-   event.preventDefault()
-})
-</script>
+<hr>
+<h2 style="color:white;">Total Public Transit Footprint = <%=carbon%> metric tons of CO2e.</h2>
 
-
-<h2>Total Public Transit Footprint = <%=carbon%> metric tons of CO2e.</h2>
-
-<button class="btn"  ><a class="anchor" href="/MotorBike">Previous</a></button>
-<button class="btn btn primary" name="b"><a id="anchor" href="/publicTransitClear">clear</a></button>
-
-
+<div class="np-clear nextprev">
+<a class="np-left " href="/MotorBike">❮ Previous</a>
+<a id="anchor" class="np-last" href="/publicTransitClear">Clear 🗘</a>
+</div>
 <%- include("partials/footer")%>

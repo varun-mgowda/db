@@ -42,6 +42,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect("mongodb://localhost:27017/usersData");
+const MotorSchema=new mongoose.Schema({
+name:String,
+value:Number
+
+});
 const DataSchema=new mongoose.Schema({
   username: String,
   password: String,
@@ -65,20 +70,17 @@ const DataSchema=new mongoose.Schema({
     distance:Number,
     footprint:Number
   },
-  Car1:{
-    carType:String,
-    distance:Number,
-    footprint:Number
-  },
+
   Result:{
     total:Number
   }
 });
 
 DataSchema.plugin(passportLocalMongoose);
-
+MotorSchema.plugin(passportLocalMongoose);
 
 const Data=new mongoose.model("Data",DataSchema);
+const MotorData=new mongoose.model("MotorData",MotorSchema);
 
 
 const LocalStrategy = require('passport-local').Strategy;
@@ -126,8 +128,13 @@ if(req.isAuthenticated()){
     cd=user.Car.distance;
     cf=user.Car.footprint;
     ct=user.Car.carType;
+    // if(cd==null){
+    //   res.render("cars",{title:"Cars",carbon:0,dist:0,sel:ct});
+    // }
+    // else{
 console.log(user.Car.carType);
   res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct});
+// }
   });
 
 }
@@ -140,6 +147,9 @@ else{
 });
 app.get("/CarTravelClear",function(req,res){
 carbonFootprintResult=carbonFootprintResult-carbonFootprint1;
+if(carbonFootprintResult<0){
+  carbonFootprintResult=0;
+}
 const result={
 total:carbonFootprintResult
 }
@@ -187,6 +197,9 @@ app.get("/Flight",function(req,res){
 app.get("/FlightClear",function(req,res){
 
   carbonFootprintResult-=carbonFootprint2;
+  if(carbonFootprintResult<0){
+    carbonFootprintResult=0;
+  }
   const result={
   total:carbonFootprintResult
   }
@@ -237,6 +250,9 @@ console.log(user.Motor.distance);
 
 app.get("/MotorBikeClear",function(req,res){
   carbonFootprintResult-=carbonFootprint3;
+  if(carbonFootprintResult<0){
+    carbonFootprintResult=0;
+  }
   const result={
   total:carbonFootprintResult
   }
@@ -283,6 +299,9 @@ app.get("/PublicTransit",function(req,res){
 })
 app.get("/publicTransitClear",function(req,res){
   carbonFootprintResult-=carbonFootprint4;
+  if(carbonFootprintResult<0){
+    carbonFootprintResult=0;
+  }
   const result={
   total:carbonFootprintResult
   }
@@ -494,7 +513,7 @@ const options = {
 	"path": "/CarbonFootprintFrom"+z+"?distance="+b+"&"+type+"="+a,
 	"headers": {
 		"x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
-    "x-rapidapi-key": "76fc72b322msh69688f315897bc5p18b7ddjsn73bed7f0038f",
+    "x-rapidapi-key": "3409bfd0b5msh5c7bb483c9d4702p1dcd95jsn3dfd185eff0f",
 		"useQueryString": true
 	}
 };
@@ -515,7 +534,7 @@ const request = https.request(options, function (res) {
  if(z==="Flight"){
 
 carbonFootprint2=JSON.parse(body).carbonEquivalent;
-
+// carbonFootprint2 = carbonFootprint2.toFixed(2);
 if(req.body.a==="two"){
   carbonFootprint2=carbonFootprint2*2;
 
@@ -538,6 +557,7 @@ Data.findByIdAndUpdate(_id, { $set: {Flight: flight }}, options, function(err){
  }
 else if(z==="CarTravel"){
   carbonFootprint1=JSON.parse(body).carbonEquivalent;
+  // carbonFootprint1 = carbonFootprint1.toFixed(2);
   carbonFootprintResult+=carbonFootprint1;
 
   const car={
@@ -554,6 +574,7 @@ else if(z==="CarTravel"){
 }
 else if(z==="PublicTransit"){
     carbonFootprint4=JSON.parse(body).carbonEquivalent;
+    // carbonFootprint4 = carbonFootprint4.toFixed(2);
     carbonFootprintResult+=carbonFootprint4;
     const public={
       vehicleType:a,
@@ -568,6 +589,7 @@ else if(z==="PublicTransit"){
 }
 else{
   carbonFootprint3=JSON.parse(body).carbonEquivalent;
+  // carbonFootprint3 = carbonFootprint3.toFixed(2);
   carbonFootprintResult+=carbonFootprint3;
   const motor={
     motorType:a,
@@ -598,7 +620,6 @@ Data.findByIdAndUpdate(_id, { $set: { Result:result }}, options, function(err){
 request.end();
 
 });
-
 
 
 app.listen("3000",function(){

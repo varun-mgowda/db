@@ -1,44 +1,46 @@
 <%- include("partials/header")%>
-<style media="screen">
-  #bike{
-padding-top:7px;
-padding-bottom:7px;
-  margin: 16px 0 16px 0;
-  box-sizing: border-box
-  text-align:center;
-  }
-  .anchor{
-    padding:8px;
+<style >
+	body{
+		 background: #f6f5f7;
 
 
-    border-color:black;
-    border-radius:3px;
 
-  }
+		 height: 100vh;
+
+		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
+		 background-position: center center;
+
+		 background-repeat: no-repeat;
+
+		 background-size: 100%;
+
+	 }
 </style>
-<h1><%=title%> carbon footprint calculator </h1>
 
-<form  action="/MotorBike" method="post" >
-  <label for="bike">Select the motorbike type: </label>
+<h1>Carbon Footprint calculator</h1>
+<h5><%=title%> carbon footprint </h5>
 
-  <select name="bike" id="bike">
-      <option value="">--Please choose an option--</option>
-      <option value="SmallMotorBike">SmallMotorBike</option>
-      <option value="MediumMotorBike">MediumMotorBike</option>
-      <option value="LargeMotorBike">LargeMotorBike</option>
-
-  </select>
-  <br>
-  <label for="distance">Enter the distance you travelled in Kms: </label>
-  <input type="number" name="distance" min=0 value="<%=dist%>" >
-<br>
-
-  <button class="btn" style="margin-top:10px;" type="submit" name="button">calculate</button>
+<form action="/MotorBike" method="post">
+	<label for="bike">Select the motorbike type: </label>
+	<select name="bike" id="bike">
+		<option value="">--Please choose an option--</option>
+		<option value="SmallMotorBike">SmallMotorBike</option>
+		<option value="MediumMotorBike">MediumMotorBike</option>
+		<option value="LargeMotorBike">LargeMotorBike</option>
+	</select>
+	<br>
+	<label for="distance">Enter the distance you travelled in Kms: </label>
+	<input type="number" name="distance" min=0 value="<%=dist%>">
+	<br>
+  <div class="np-clear nextprev">
+  <button type="submit" name="button" class="np-clea">Calculate</button>
+  </div>
 </form>
-<h2>Total Motorbike Footprint = <%=carbon%> metric tons of CO2e.</h2>
-<button class="btn"  ><a class="anchor" href="/PublicTransit">Next</a></button>
-
-<button class="btn"  ><a class="anchor" href="/Flight">Previous</a></button>
-<button class="btn btn primary" name="b"><a id="anchor" href="/MotorBikeClear">clear</a></button>
-
+<hr>
+<h2 style="color:white;">Total Motorbike Footprint = <%=carbon%> metric tons of CO2e.</h2>
+<div class="np-clear nextprev">
+<a class="np-left ws-btn" href="/Flight">❮ Previous</a>
+<a class="np-right ws-btn" href="/PublicTransit">Next ❯</a>
+<a class="np-clea" id="anchor" href="/MotorBikeClear">Clear 🗘</a>
+</div>
 <%- include("partials/footer")%>

@@ -22,15 +22,16 @@
   <button type="submit" name="button" class="np-clea">Lets Calculate</button>
 <select  name="entry"id="entry">
 
-	<option value="entry1">Entry 1</option>
-
 	<% if(sel==="entry1"){ %>
 	<option select selected value="entry1">Entry 1</option>
+	<option value="entry2">Entry 2</option>
 	<%}  if(sel==="entry2"){ %>
+			<option value="entry1">Entry 1</option>
 	<option select selected value="entry2">Entry 2</option>
 
-		 <%}%>
-	<option value="entry2">Entry 2</option>
+		 <%} else{ %>
+	 			<option value="entry1">Entry 1</option>
+<%}%>
 
 </select>
 

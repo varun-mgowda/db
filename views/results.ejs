@@ -1,5 +1,35 @@
 <%- include("partials/header")%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px;height:40%;"></canvas>
 
+<script>
+	var xValues = ["Global Footprint", "country Footprint", "Your Footprint"];
+	var yValues = [10, 10, 50];
+var barColors = [
+
+	"#00ffab",
+	"#4fb056",
+	"#1ef10e"
+
+];
+
+new Chart("myChart", {
+	type: "pie",
+	data: {
+		labels: xValues,
+		datasets: [{
+			backgroundColor: barColors,
+			data: yValues
+		}]
+	},
+	options: {
+		title: {
+			display: true,
+			text:  "Total carbon footprint analysis."
+		}
+	}
+});
+</script>
 <style >
 	body{
 
@@ -59,12 +89,14 @@
 <div class="np-clear nextprev">
 <a class="np-left " href="/logout">❮ Logout</a>
 <a class="np-last" href="/clear">Clear 🗘</a>
-<a class="np-clea" href="/results2">For Detailed Analysis..</a>
+<form class="" action="/results2" method="post">
+	<button class="btn btn-success" type="submit" >For Detailed Analysis..
+	Submit</button>
+</form>
 
 </div>
-<form class="" action="/results2" method="post">
-	<button id="btn">Submit</button>
-</form>
+
+
 
 
 

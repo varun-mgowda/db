@@ -15,6 +15,7 @@ var carbonFootprint1=0;
 var carbonFootprint2=0;                     //variables to store result
 var carbonFootprint3=0;
 var carbonFootprint4=0;
+var carbonFootprint12=0,carbonFootprint13=0,carbonFootprint14;
 var carbonFootprintResult=0;
 var carbonFootprint11=0;
 var carbonFootprintResult1=0;
@@ -122,11 +123,8 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-
-
-app.get("/PieChart",function(req,res){
-  res.render("PieChart");
-})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////root and home routes /////////////////////////////////////////////////////////////////////////////
 
 app.get("/",function(req,res){
   if(req.isAuthenticated()){
@@ -174,6 +172,10 @@ app.get("/next",function(req,res){
   res.render("next");
 })
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////cartravel/////////////////////////////////////////////////////////////////////////////
+
 app.get("/CarTravel",function(req,res){
 
 if(req.isAuthenticated()){
@@ -190,8 +192,11 @@ if(req.isAuthenticated()){
     cf=user.Car1.footprint;
     var ct=user.Car1.carType;
 }
-if(cf>=20){
+if(cf<=20){
   var statement="I’m like 97% of scientist myself, and I can’t deny … it’s getting hot in here.";
+}
+else if(cf>20&& cf<40){
+  var statement="Love water not Oil";
 }
   res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct,pie:cf,statement:statement});
 
@@ -206,6 +211,10 @@ else{
 
 
 });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////cartravel clear/////////////////////////////////////////////////////////////////////////////
+
 
 app.get("/CarTravelClear",function(req,res){
 
@@ -267,15 +276,29 @@ app.get("/CarTravelClear",function(req,res){
 
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////Flight /////////////////////////////////////////////////////////////////////////////
 
 app.get("/Flight",function(req,res){
   if(req.isAuthenticated()){
     Data.findOne({_id:_id}, function (err, user) {
-
+  if(user.entry==="entry1"){
       fd=user.Flight.distance;
       ff=user.Flight.footprint;
       ft=user.Flight.flightType;
-        res.render("Flight",{title:"Flight",carbon:ff,dist:fd,sel:ft});
+    }
+    else{
+      fd=user.Flight1.distance;
+      ff=user.Flight1.footprint;
+      ft=user.Flight1.flightType;
+    }
+    if(ff<=20){
+      var statement="I’m like 97% of scientist myself, and I can’t deny … it’s getting hot in here.";
+    }
+    else if(ff>20&& ff<40){
+      var statement="Love water not Oil";
+    }
+        res.render("Flight",{title:"Flight",carbon:ff,dist:fd,sel:ft,statement:statement,pie:ff});
     });
   }
   else{
@@ -284,8 +307,13 @@ app.get("/Flight",function(req,res){
 
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////flight clear/////////////////////////////////////////////////////////////////////////////
+
 app.get("/FlightClear",function(req,res){
 
+    Data.findOne({_id:_id}, function (err, user) {
+  if(user.entry==="entry1"){
   carbonFootprintResult-=carbonFootprint2;
   if(carbonFootprintResult<0){
     carbonFootprintResult=0;
@@ -312,33 +340,83 @@ Data.findByIdAndUpdate(_id, { $set: { Flight: motor1 }}, function(err){
   }
 
 })
-    res.render("Flight",{title:"Flight",carbon:0,dist:0,sel:"--Please choose an option--"});
+
+}
+else{
+  carbonFootprintResult1-=carbonFootprint12;
+  if(carbonFootprintResult1<0){
+    carbonFootprintResult1=0;
+  }
+  const result={
+  total:carbonFootprintResult1
+  }
+  Data.findByIdAndUpdate(_id, { $set: { Result1:result }}, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
+const motor1={
+  flightType:"",
+  distance:0,
+  footprint:0
+}
 
 
+Data.findByIdAndUpdate(_id, { $set: { Flight1: motor1 }}, function(err){
+  if(err){
+    console.log(err);
+  }
 
+})
+}
+})
+
+res.render("Flight",{title:"Flight",carbon:0,dist:0,sel:"--Please choose an option--",statement:"",pie:ff});
 });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////motorbike /////////////////////////////////////////////////////////////////////////////
+
 
 app.get("/MotorBike",function(req,res){
 
   if(req.isAuthenticated()){
   Data.findOne({_id:_id}, function (err, user) {
+    if(user.entry==="entry1"){
 console.log(user.Motor.motorType);
     md=user.Motor.distance;
     mf=user.Motor.footprint;
    mt=user.Motor.motorType;
-      res.render("bike",{title:"MotorBike",carbon:mf,dist:md,sel:mt});
+ }
+ else{
+   md=user.Motor1.distance;
+   mf=user.Motor1.footprint;
+  mt=user.Motor1.motorType;
+ }
+ if(mf<=20){
+   var statement="I’m like 97% of scientist myself, and I can’t deny … it’s getting hot in here.";
+ }
+ else if(mf>20&& mf<40){
+   var statement="Love water not Oil";
+ }
+      res.render("bike",{title:"MotorBike",carbon:mf,dist:md,sel:mt,statement:statement,pie:mf});
   });
 
 
   }
   else{
     res.render("starter");
-  }                                                                                  //to render respective pages for specified routes
+  }
 
 
 });
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////motorbike clear/////////////////////////////////////////////////////////////////////////////
 
 app.get("/MotorBikeClear",function(req,res){
+  Data.findOne({_id:_id}, function (err, user) {
+  if(user.entry==="entry1"){
   carbonFootprintResult-=carbonFootprint3;
   if(carbonFootprintResult<0){
     carbonFootprintResult=0;
@@ -365,29 +443,76 @@ Data.findByIdAndUpdate(_id, { $set: { Motor: motor1 }}, function(err){
   }
 
 })
-res.render("bike",{title:"MotorBike",carbon:0,dist:0,sel:"--Please choose an option--"});
+}
+else{
+  carbonFootprintResult1-=carbonFootprint13;
+  if(carbonFootprintResult1<0){
+    carbonFootprintResult1=0;
+  }
+  const result={
+  total:carbonFootprintResult
+  }
+  Data.findByIdAndUpdate(_id, { $set: { Result1:result }}, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
+const motor1={
+  motorType:"",
+  distance:0,
+  footprint:0
+}
+
+
+Data.findByIdAndUpdate(_id, { $set: { Motor1: motor1 }}, function(err){
+  if(err){
+    console.log(err);
+  }
+
+})
+}
+})
+res.render("bike",{title:"MotorBike",carbon:0,dist:0,sel:"--Please choose an option--",statement:"",pie:mf});
 
 });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////public /////////////////////////////////////////////////////////////////////////////
 
 app.get("/PublicTransit",function(req,res){
 
   if(req.isAuthenticated()){
     Data.findOne({_id:_id}, function (err, user) {
-
+if(user.entry==="entry1"){
       pd=user.Public.distance;
       pf=user.Public.footprint;
       pt=user.Public.vehicleType;
-    res.render("public",{title:"Public Transport",carbon:pf,dist:pd,sel:pt})
+    }
+    else{
+      pd=user.Public1.distance;
+      pf=user.Public1.footprint;
+      pt=user.Public1.vehicleType;
+    }
+    if(pf<=20){
+      var statement="I’m like 97% of scientist myself, and I can’t deny … it’s getting hot in here.";
+    }
+    else if(pf>20&& pf<40){
+      var statement="Love water not Oil";
+    }
+    res.render("public",{title:"Public Transport",carbon:pf,dist:pd,sel:pt,statement:statement,pie:pf})
     });
   }
   else{
     res.render("starter");
-  }                                                                                  //to render respective pages for specified routes
+  }
 
 
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////public clear /////////////////////////////////////////////////////////////////////////////
 app.get("/publicTransitClear",function(req,res){
+  Data.findOne({_id:_id}, function (err, user) {
+  if(user.entry==="entry1"){
   carbonFootprintResult-=carbonFootprint4;
   if(carbonFootprintResult<0){
     carbonFootprintResult=0;
@@ -414,8 +539,42 @@ app.get("/publicTransitClear",function(req,res){
     }
 
   })
-  res.render("public",{title:"Public Transport",carbon:0,dist:0,sel:"--Please choose an option--"})
+}
+else{
+  carbonFootprintResult1-=carbonFootprint14;
+  if(carbonFootprintResult1<0){
+    carbonFootprintResult1=0;
+  }
+  const result={
+  total:carbonFootprintResult1
+  }
+  Data.findByIdAndUpdate(_id, { $set: { Result1:result }}, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
+  const motor1={
+    vehicleType:"",
+    distance:0,
+    footprint:0
+  }
+
+
+  Data.findByIdAndUpdate(_id, { $set: { Public1: motor1 }}, function(err){
+    if(err){
+      console.log(err);
+    }
+
+  })
+}
 })
+  res.render("public",{title:"Public Transport",carbon:0,dist:0,sel:"--Please choose an option--",statement:"",pie:ff})
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////results /////////////////////////////////////////////////////////////////////////////
+
 
 
 app.get("/results",function(req,res){
@@ -435,7 +594,8 @@ res.render("results",{carbon:Final})
 });
 }
 })
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////results2 /////////////////////////////////////////////////////////////////////////////
 app.get("/results2",function(req,res){
   if(req.isAuthenticated()){
     Data.findOne({_id:_id}, function (err, user) {
@@ -480,7 +640,7 @@ app.get("/results2",function(req,res){
 
                   var c1=user.Result1.total;
 
-      res.render("results2",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,footprint11:cf1});
+      res.render("results2",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,footprint11:cf1,vehicle12:ft1,distance12:fd1,footprint12:ff1,vehicle13:mt1,distance13:md1,footprint13:mf1,vehicle14:pt1,distance14:pd1,footprint14:pf1,carbon1:c1});
     });
   }
   else{
@@ -489,8 +649,73 @@ app.get("/results2",function(req,res){
 
 
 })
+
+app.get("/results22",function(req,res){
+  if(req.isAuthenticated()){
+    Data.findOne({_id:_id}, function (err, user) {
+
+      cd=user.Car.distance;
+      cf=user.Car.footprint;
+      var ct=user.Car.carType;
+
+
+            fd=user.Flight.distance;
+            ff=user.Flight.footprint;
+            ft=user.Flight.flightType;
+
+            md=user.Motor.distance;
+            mf=user.Motor.footprint;
+           mt=user.Motor.motorType;
+
+
+            pd=user.Public.distance;
+            pf=user.Public.footprint;
+            pt=user.Public.vehicleType;
+
+            var c=user.Result.total;
+
+                    cd1=user.Car1.distance;
+                    cf1=user.Car1.footprint;
+                    var ct1=user.Car1.carType;
+
+
+                  fd1=user.Flight1.distance;
+                  ff1=user.Flight1.footprint;
+                  ft1=user.Flight1.flightType;
+
+                  md1=user.Motor1.distance;
+                  mf1=user.Motor1.footprint;
+                 mt1=user.Motor1.motorType;
+
+
+                  pd1=user.Public1.distance;
+                  pf1=user.Public1.footprint;
+                  pt1=user.Public1.vehicleType;
+
+                  var c1=user.Result1.total;
+
+      res.render("results22",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,footprint11:cf1,vehicle12:ft1,distance12:fd1,footprint12:ff1,vehicle13:mt1,distance13:md1,footprint13:mf1,vehicle14:pt1,distance14:pd1,footprint14:pf1,carbon1:c1});
+    });
+  }
+  else{
+    res.render("starter");
+  }
+
+
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////get routs starts /////////////////////////////////////////////////////////////////////////////
 app.post("/results2",function(req,res){
-  res.redirect("/results2");
+  Data.findOne({_id:_id},function(err,user){
+    if(user.entry==="entry1"){
+        res.redirect("/results2");
+    }
+    else{
+        res.redirect("/results22");
+    }
+  })
+
 
 })
 app.get("/reduce",function(req,res){
@@ -503,10 +728,13 @@ res.render("starter",{msgb:" "});
 app.get("/login",function(req,res){
 res.render("starter",{msg:" "});
 })
-//--------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////clear whole form /////////////////////////////////////////////////////////////////////////////
 
 app.get("/clear",function(re,res){
-
+  Data.findOne({_id:_id}, function (err, user) {
+  if(user.entry==="entry1"){
 carbonFootprintResult=0;
 
 const result={
@@ -576,18 +804,93 @@ Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
     }
 
   })
+}
+else{
+  carbonFootprintResult1=0;
+
+  const result={
+  total:carbonFootprintResult1
+  }
+  Data.findByIdAndUpdate(_id, { $set: { Result1:result }}, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
+
+  const motor1={
+    carType:"",
+    distance:0,
+    footprint:0
+  }
+
+
+  Data.findByIdAndUpdate(_id, { $set: { Car1: motor1 }}, function(err){
+    if(err){
+      console.log(err);
+    }
+
+  })
+
+
+    const motor2={
+      motorType:"",
+      distance:0,
+      footprint:0
+    }
+
+
+    Data.findByIdAndUpdate(_id, { $set: { Motor1: motor2 }}, function(err){
+      if(err){
+        console.log(err);
+      }
+
+    })
+
+    const motor3={
+      flightType:"",
+      distance:0,
+      footprint:0
+    }
+
+
+    Data.findByIdAndUpdate(_id, { $set: { Flight1: motor3 }}, function(err){
+      if(err){
+        console.log(err);
+      }
+
+    })
+
+
+    const motor4={
+      vehicleType:"",
+      distance:0,
+      footprint:0
+    }
+
+
+    Data.findByIdAndUpdate(_id, { $set: { Public1: motor4 }}, function(err){
+      if(err){
+        console.log(err);
+      }
+
+    })
+}
+})
 res.redirect("/CarTravel");
 
 })
 
 
-//--------------------------------------------------------
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////logout /////////////////////////////////////////////////////////////////////////////-
 app.get("/logout", function (req, res){
   req.session.destroy(function (err) {
     res.render("starter"); //Inside a callback… bulletproof!
   });
 });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////login /////////////////////////////////////////////////////////////////////////////
 
 app.post("/login",function(req,res){
 
@@ -607,7 +910,8 @@ app.post("/login",function(req,res){
    });
  })(req, res);
 })
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////register /////////////////////////////////////////////////////////////////////////////
 app.post("/register",function(req,res){
 
   const user2=new Data({
@@ -627,7 +931,8 @@ app.post("/register",function(req,res){
 })
 
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////generic post routes /////////////////////////////////////////////////////////////////////////////
 
 app.post("/:a",function(req,response){
 
@@ -682,9 +987,12 @@ const request = https.request(options, function (res) {
 
 
   const y=["/",z];
-  const x=y.join('');                                                     //forming redirecting route
+  const x=y.join('');
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////flight /////////////////////////////////////////////////////////////////////////////
  if(z==="Flight"){
-
+Data.findOne({_id:_id}, function (err, user) {
+    if(user.entry==="entry1"){
 carbonFootprint2=JSON.parse(body).carbonEquivalent;
 // carbonFootprint2 = carbonFootprint2.toFixed(2);
 if(req.body.a==="two"){
@@ -704,12 +1012,33 @@ Data.findByIdAndUpdate(_id, { $set: {Flight: flight }}, options, function(err){
     console.log(err);
   }
 })
-                                                                   //updating the corresponding result variables
+}
+else{
+  carbonFootprint12=JSON.parse(body).carbonEquivalent;
+  // carbonFootprint2 = carbonFootprint2.toFixed(2);
+  if(req.body.a==="two"){
+    carbonFootprint12=carbonFootprint12*2;
 
+  }
+  carbonFootprintResult1+=carbonFootprint12;
+  const flight={
+    flightType:a,
+    distance:flightDist,
+    footprint:carbonFootprint12
+
+  }
+
+  Data.findByIdAndUpdate(_id, { $set: {Flight1: flight }}, options, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+}
+})
  }
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ //////////////////////////////////////////////////////////////////////////car /////////////////////////////////////////////////////////////////////////////
 else if(z==="CarTravel"){
-
-
 
     Data.findOne({_id:_id}, function (err, user) {
       carbonFootprint1=JSON.parse(body).carbonEquivalent;
@@ -744,17 +1073,14 @@ else if(z==="CarTravel"){
             console.log(err);
           }
         })
-
       }
     });
-
-
-
-
-
-
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////public /////////////////////////////////////////////////////////////////////////////
 else if(z==="PublicTransit"){
+  Data.findOne({_id:_id}, function (err, user) {
+      if(user.entry==="entry1"){
     carbonFootprint4=JSON.parse(body).carbonEquivalent;
     // carbonFootprint4 = carbonFootprint4.toFixed(2);
     carbonFootprintResult+=carbonFootprint4;
@@ -768,8 +1094,29 @@ else if(z==="PublicTransit"){
         console.log(err);
       }
     })
+  }
+  else{
+    carbonFootprint14=JSON.parse(body).carbonEquivalent;
+    // carbonFootprint4 = carbonFootprint4.toFixed(2);
+    carbonFootprintResult1+=carbonFootprint14;
+    const public={
+      vehicleType:a,
+      distance:publicDist,
+      footprint:carbonFootprint14
+    }
+    Data.findByIdAndUpdate(_id, { $set: { Public1: public }}, options, function(err){
+      if(err){
+        console.log(err);
+      }
+    })
+  }
+})
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////motorbike /////////////////////////////////////////////////////////////////////////////
 else{
+  Data.findOne({_id:_id}, function (err, user) {
+      if(user.entry==="entry1"){
   carbonFootprint3=JSON.parse(body).carbonEquivalent;
   // carbonFootprint3 = carbonFootprint3.toFixed(2);
   carbonFootprintResult+=carbonFootprint3;
@@ -783,9 +1130,27 @@ else{
       console.log(err);
     }
   })
+}
+else{
+  carbonFootprint13=JSON.parse(body).carbonEquivalent;
+  // carbonFootprint3 = carbonFootprint3.toFixed(2);
+  carbonFootprintResult1+=carbonFootprint13;
+  const motor={
+    motorType:a,
+    distance:motorDist,
+    footprint:carbonFootprint13
+  }
+  Data.findByIdAndUpdate(_id, { $set: { Motor1: motor }}, options, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+}
+})
 
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////results /////////////////////////////////////////////////////////////////////////////
 
   Data.findOne({_id:_id}, function (err, user) {
     if(user.entry==="entry1"){

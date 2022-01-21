@@ -35,62 +35,10 @@ margin:auto;
 }
 </style>
 
-
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th  scope="col">#1</th>
-      <th scope="col">Vehicle Type</th>
-      <th scope="col">Distance</th>
-      <th scope="col">Carbon Footprint</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Car</th>
-      <td><%=vehicle1%></td>
-      <td><%=distance1%></td>
-      <td><%=footprint1%></td>
-    </tr>
-    <tr>
-      <th scope="row">Flight</th>
-      <td><%=vehicle2%></td>
-      <td><%=distance2%></td>
-      <td><%=footprint2%></td>
-    </tr>
-    <tr>
-      <th scope="row">MotorBike</th>
-      <td id="1_1"><%=vehicle3%></td>
-      <td id="1_2"><%=distance3%></td>
-      <td id="1_3"><%=footprint3%></td>
-    </tr>
-    <tr>
-      <th scope="row">Public Transit</th>
-      <td><%=vehicle4%></td>
-      <td><%=distance4%></td>
-      <td><%=footprint4%></td>
-    </tr>
-  </tbody>
-</table>
-<p>
-  Total Carbon Footprint is : <%=carbon%>
-</p>
-<p>
-
-
-
-<button  class="btn btn-dark np-clea" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Previous Entries
-  </button>
-</p>
-<div class="collapse" id="collapseExample">
-
-
-
 <table class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">#2</th>
+      <th scope="col">#1</th>
       <th scope="col">Vehicle Type</th>
       <th scope="col">Distance</th>
       <th scope="col">Carbon Footprint</th>
@@ -123,6 +71,58 @@ margin:auto;
     </tr>
   </tbody>
 </table>
+
+<p>
+  Total Carbon Footprint is : <%=carbon%>
+</p>
+<p>
+
+
+
+<button  class="btn btn-dark np-clea" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Previous Entries
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th  scope="col">#2</th>
+        <th scope="col">Vehicle Type</th>
+        <th scope="col">Distance</th>
+        <th scope="col">Carbon Footprint</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Car</th>
+        <td><%=vehicle1%></td>
+        <td><%=distance1%></td>
+        <td><%=footprint1%></td>
+      </tr>
+      <tr>
+        <th scope="row">Flight</th>
+        <td><%=vehicle2%></td>
+        <td><%=distance2%></td>
+        <td><%=footprint2%></td>
+      </tr>
+      <tr>
+        <th scope="row">MotorBike</th>
+        <td id="1_1"><%=vehicle3%></td>
+        <td id="1_2"><%=distance3%></td>
+        <td id="1_3"><%=footprint3%></td>
+      </tr>
+      <tr>
+        <th scope="row">Public Transit</th>
+        <td><%=vehicle4%></td>
+        <td><%=distance4%></td>
+        <td><%=footprint4%></td>
+      </tr>
+    </tbody>
+  </table>
+
 <p>
   Total Carbon Footprint is : <%=carbon1%>
 </p>

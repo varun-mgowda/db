@@ -1,4 +1,35 @@
 <%- include("partials/header")%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:500px;height:40%;"></canvas>
+
+<script>
+	var xValues = ["Global Footprint", "country Footprint", "Your Footprint"];
+	var yValues = [10, 10, <%=pie%>];
+var barColors = [
+
+	"#00ffab",
+	"#4fb056",
+	"#1ef10e"
+
+];
+
+new Chart("myChart", {
+	type: "pie",
+	data: {
+		labels: xValues,
+		datasets: [{
+			backgroundColor: barColors,
+			data: yValues
+		}]
+	},
+	options: {
+		title: {
+			display: true,
+			text:  "Flight carbon footprint analysis."
+		}
+	}
+});
+</script>
 <style >
 	body{
 
@@ -21,9 +52,9 @@
 <form action="/Flight" method="post">
 	<div name="ways">
 		<label for="one">One way flight</label>
-		<input type="radio" name="a" id="one" value="one" checked=checked>
+		<input type="radio" name="radioButtons" id="one" value="one" checked=checked>
 		<label for="two">Two way flight</label>
-		<input type="radio" name="a" id="two" value="two">
+		<input type="radio" name="radioButtons" id="two" value="two">
 
 	</div>
 
@@ -59,7 +90,7 @@
 	</select>
 	<br>
 	<label for="distance">Enter the distance you travelled in Kms: </label>
-	<input type="number" name="distance" min=0 value="<%=dist%>">
+	<input type="number" name="distance" min=0 max=10000 placeholder="0" value="<%=dist%>">
 	<br>
 
   <div class="np-clear nextprev">
@@ -67,6 +98,8 @@
   </div>
   <hr>
 </form>
+<br>
+<p style="color:black;"><%=statement%></p>
 <h2 style="color:white;">Total Flights Footprint = <%=carbon%> metric tons of CO2e.</h2>
 <div class="np-clear nextprev">
 <a class="np-left " href="/CarTravel">❮ Previous</a>

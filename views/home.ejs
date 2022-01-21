@@ -17,13 +17,24 @@
 <h1>Welcome To</h1>
 <h1 style=" font-size:50px; font-family:cantarell; color: bl;"><b>CARBON FOOTPRINT CALCULATOR</b></h1>
 <h3> Carbon Footprint Calculator For Individuals And Households</h3>
-<!-- <form action="/CarTravel" method="post">
+<form action="/entry" method="post">
 
   <button type="submit" name="button" class="np-clea">Lets Calculate</button>
+<select  name="entry"id="entry">
+
+	<option value="entry1">Entry 1</option>
+
+	<% if(sel==="entry1"){ %>
+	<option select selected value="entry1">Entry 1</option>
+	<%}  if(sel==="entry2"){ %>
+	<option select selected value="entry2">Entry 2</option>
+
+		 <%}%>
+	<option value="entry2">Entry 2</option>
+
+</select>
 
 
-</form> -->
-<div class="np-clear nextprev">
-<a class="np-clea" href="/CarTravel">Lets Calculate</a>
-</div>
+</form>
+
 <%- include("partials/footer")%>

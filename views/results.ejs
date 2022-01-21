@@ -1,4 +1,5 @@
 <%- include("partials/header")%>
+
 <style >
 	body{
 
@@ -12,32 +13,60 @@
 
 
 	 }
+	 .flex{
+		 display:flex;
+		 flex-direction:row;
+		 align-items:center;
+		 justify-content:center;
+		 margin-top:7%;
+
+	 }
+	 .items{
+		 display:flex;
+		flex-direction:column;
+		align-items:center;
+	 }
+
+
 </style>
 
 <h1>Your Total carbon footprint is : <%=carbon%> metric tons of CO2e.</h1>
-<div class="">
-	<div class="">
+<div class="flex">
+	<div class="items">
 		<% if(carbon>150){ %>
 
 		<img style="height:150px;" src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
+		<br>
 		<label for="">Your footprint</label>
 		<% } else if(carbon <150){%>
 
 		<img style="height:50px;" src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
+		<br >
 		<label for="">Your footprint</label>
 		<%}%>
   </div>
-  <div class="">
+  <div class="items">
     <img style="height:200px;"src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
+		<br >
   <label for="">Your country footprint</label>
   </div>
-  <div class="">
+  <div class="items">
     <img style="height:70px;"src="https://calculator.carbonfootprint.com/blackfoot.gif" alt="">
+		<br >
   <label for="">Global footprint</label>
   </div>
 </div>
 <div class="np-clear nextprev">
 <a class="np-left " href="/logout">❮ Logout</a>
 <a class="np-last" href="/clear">Clear 🗘</a>
+<a class="np-clea" href="/results2">For Detailed Analysis..</a>
+
 </div>
+<form class="" action="/results2" method="post">
+	<button id="btn">Submit</button>
+</form>
+
+
+
+
 <%- include("partials/footer")%>

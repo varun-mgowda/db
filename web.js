@@ -16,6 +16,8 @@ var carbonFootprint2=0;                     //variables to store result
 var carbonFootprint3=0;
 var carbonFootprint4=0;
 var carbonFootprintResult=0;
+var carbonFootprint11=0;
+var carbonFootprintResult1=0;
 var b=0;
 var flag=0;
 var a="";
@@ -27,6 +29,7 @@ var flightDist=0;
 var publicDist=0;
 var _id="";
 var cd=0,cf=0,ff=0,fd=0,md=0,mf=0,pd=0,pf=0;
+
 // var md=0;
 
 app.use(express.static("public"));
@@ -44,7 +47,7 @@ app.use(passport.session());
 mongoose.connect("mongodb://localhost:27017/usersData");
 const MotorSchema=new mongoose.Schema({
 name:String,
-value:Number
+footprint:Number
 
 });
 const DataSchema=new mongoose.Schema({
@@ -70,16 +73,27 @@ const DataSchema=new mongoose.Schema({
     distance:Number,
     footprint:Number
   },
-
+  Car1:{
+    carType:String,
+    distance:Number,
+    footprint:Number
+  },
   Result:{
     total:Number
-  }
+  },
+  Result1:{
+    total:Number
+  },
+    entry:String
 });
 
 DataSchema.plugin(passportLocalMongoose);
 MotorSchema.plugin(passportLocalMongoose);
 
 const Data=new mongoose.model("Data",DataSchema);
+
+
+
 const MotorData=new mongoose.model("MotorData",MotorSchema);
 
 
@@ -93,9 +107,16 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+
+
+
+
 app.get("/",function(req,res){
   if(req.isAuthenticated()){
-    res.render("home");
+    Data.findOne({_id:_id},function(err,user){
+        res.render("home",{sel:user.entry});
+    })
+
   }
   else {
     res.render("starter");
@@ -103,11 +124,27 @@ app.get("/",function(req,res){
 
 })
 
+app.post("/entry",function(req,res){
+
+var  entry=req.body.entry;
+  console.log(entry);
+  Data.findByIdAndUpdate(_id, { $set: { entry:entry }}, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
+  res.redirect("/CarTravel");
+})
+
 app.get("/home",function(req,res){
 
-entry=req.body.entry;
+
 if(req.isAuthenticated()){
-  res.render("home");
+  Data.findOne({_id:_id},function(err,user){
+      res.render("home",{sel:user.entry});
+  })
+
 }
 
 else{
@@ -119,32 +156,38 @@ else{
 app.get("/next",function(req,res){
   res.render("next");
 })
+
 app.get("/CarTravel",function(req,res){
 
-console.log(a);
 if(req.isAuthenticated()){
-  Data.findOne({_id:_id}, function (err, user) {
 
+  Data.findOne({_id:_id}, function (err, user) {
+    if(user.entry==="entry1"){
     cd=user.Car.distance;
     cf=user.Car.footprint;
-    ct=user.Car.carType;
-    // if(cd==null){
-    //   res.render("cars",{title:"Cars",carbon:0,dist:0,sel:ct});
-    // }
-    // else{
-console.log(user.Car.carType);
-  res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct});
-// }
-  });
-
+    var ct=user.Car.carType;
+    console.log(user.Car.carType);
+    }
+    else{
+    cd=user.Car1.distance;
+    cf=user.Car1.footprint;
+    var ct=user.Car1.carType;
 }
+
+  res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct});
+
+  });
+}
+
+
+
 else{
   res.render("starter");
 }
 
 
-
 });
+
 app.get("/CarTravelClear",function(req,res){
 carbonFootprintResult=carbonFootprintResult-carbonFootprint1;
 if(carbonFootprintResult<0){
@@ -232,11 +275,11 @@ app.get("/MotorBike",function(req,res){
 
   if(req.isAuthenticated()){
   Data.findOne({_id:_id}, function (err, user) {
-console.log(user.Motor.distance);
+console.log(user.Motor.motorType);
     md=user.Motor.distance;
     mf=user.Motor.footprint;
-
-      res.render("bike",{title:"MotorBike",carbon:mf,dist:md});
+   mt=user.Motor.motorType;
+      res.render("bike",{title:"MotorBike",carbon:mf,dist:md,sel:mt});
   });
 
 
@@ -275,7 +318,7 @@ Data.findByIdAndUpdate(_id, { $set: { Motor: motor1 }}, function(err){
   }
 
 })
-res.render("bike",{title:"MotorBike",carbon:0,dist:0});
+res.render("bike",{title:"MotorBike",carbon:0,dist:0,sel:"--Please choose an option--"});
 
 });
 
@@ -287,8 +330,8 @@ app.get("/PublicTransit",function(req,res){
 
       pd=user.Public.distance;
       pf=user.Public.footprint;
-
-    res.render("public",{title:"Public Transport",carbon:pf,dist:pd})
+      pt=user.Public.vehicleType;
+    res.render("public",{title:"Public Transport",carbon:pf,dist:pd,sel:pt})
     });
   }
   else{
@@ -324,7 +367,7 @@ app.get("/publicTransitClear",function(req,res){
     }
 
   })
-  res.render("public",{title:"Public Transport",carbon:0,dist:0})
+  res.render("public",{title:"Public Transport",carbon:0,dist:0,sel:"--Please choose an option--"})
 })
 
 
@@ -333,14 +376,56 @@ app.get("/results",function(req,res){
 // carbonFootprintResult=  Math.round(carbonFootprintResult * 100) / 100;
   if(req.isAuthenticated()){
 Data.findOne({_id:_id}, function (err, user) {
+if(user.entry==1){
+  var Final=user.Result.total;
+}
+else{
+  var Final=user.Result1.total;
+}
 
-var Final=user.Result.total;
 
 res.render("results",{carbon:Final})
 });
 }
 })
 
+app.get("/results2",function(req,res){
+  if(req.isAuthenticated()){
+    Data.findOne({_id:_id}, function (err, user) {
+
+      cd=user.Car.distance;
+      cf=user.Car.footprint;
+      var ct=user.Car.carType;
+
+
+            fd=user.Flight.distance;
+            ff=user.Flight.footprint;
+            ft=user.Flight.flightType;
+
+            md=user.Motor.distance;
+            mf=user.Motor.footprint;
+           mt=user.Motor.motorType;
+
+
+            pd=user.Public.distance;
+            pf=user.Public.footprint;
+            pt=user.Public.vehicleType;
+
+            var c=user.Result.total;
+
+      res.render("results2",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c});
+    });
+  }
+  else{
+    res.render("starter");
+  }
+
+
+})
+app.post("/results2",function(req,res){
+  res.redirect("/results2");
+
+})
 app.get("/reduce",function(req,res){
   res.render("reduce");
 })
@@ -513,7 +598,7 @@ const options = {
 	"path": "/CarbonFootprintFrom"+z+"?distance="+b+"&"+type+"="+a,
 	"headers": {
 		"x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
-    "x-rapidapi-key": "3409bfd0b5msh5c7bb483c9d4702p1dcd95jsn3dfd185eff0f",
+    "x-rapidapi-key": "e692b4c540msh177df994cbab230p1ad0e8jsn7d7f74d478b4",
 		"useQueryString": true
 	}
 };
@@ -556,20 +641,50 @@ Data.findByIdAndUpdate(_id, { $set: {Flight: flight }}, options, function(err){
 
  }
 else if(z==="CarTravel"){
-  carbonFootprint1=JSON.parse(body).carbonEquivalent;
-  // carbonFootprint1 = carbonFootprint1.toFixed(2);
-  carbonFootprintResult+=carbonFootprint1;
 
-  const car={
-    carType:a,
-    distance:carsDist,
-    footprint:carbonFootprint1
-  }
-  Data.findByIdAndUpdate(_id, { $set: { Car: car }}, options, function(err){
-    if(err){
-      console.log(err);
-    }
-  })
+
+
+    Data.findOne({_id:_id}, function (err, user) {
+      carbonFootprint1=JSON.parse(body).carbonEquivalent;
+      // carbonFootprint1 = carbonFootprint1.toFixed(2);
+      carbonFootprintResult+=carbonFootprint1;
+      if(user.entry==="entry1"){
+        const car={
+          carType:a,
+          distance:carsDist,
+          footprint:carbonFootprint1
+        }
+
+        Data.findByIdAndUpdate(_id, { $set: { Car: car }}, options, function(err){
+          if(err){
+            console.log(err);
+          }
+        })
+
+      }
+      else{
+        carbonFootprint11=JSON.parse(body).carbonEquivalent;
+
+        carbonFootprintResult1+=carbonFootprint11;
+        const car={
+          carType:a,
+          distance:carsDist,
+          footprint:carbonFootprint11
+        }
+
+        Data.findByIdAndUpdate(_id, { $set: { Car1: car }}, options, function(err){
+          if(err){
+            console.log(err);
+          }
+        })
+
+      }
+    });
+
+
+
+
+
 
 }
 else if(z==="PublicTransit"){
@@ -603,14 +718,31 @@ else{
   })
 
 }
-const result={
-total:carbonFootprintResult
-}
-Data.findByIdAndUpdate(_id, { $set: { Result:result }}, options, function(err){
-  if(err){
-    console.log(err);
+
+
+  Data.findOne({_id:_id}, function (err, user) {
+    if(user.entry==="entry1"){
+      const result={
+      total:carbonFootprintResult
+      }
+      Data.findByIdAndUpdate(_id, { $set: { Result:result }}, options, function(err){
+        if(err){
+          console.log(err);
+        }
+      })
+
+    }
+else{
+  const result1={
+  total:carbonFootprintResult1
   }
-})
+  Data.findByIdAndUpdate(_id, { $set: { Result1:result1 }}, options, function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+}
+});
 
   response.redirect(x);                                                     //redirectinig to corresponding routes
 	});
@@ -620,6 +752,148 @@ Data.findByIdAndUpdate(_id, { $set: { Result:result }}, options, function(err){
 request.end();
 
 });
+
+//
+// var count=0;
+// while(count!=1){
+//   var SmallDieselCar=new MotorData({
+//     name:"SmallDieselCar",
+//     footprint:1.20
+//   });
+//   var MediumDieselCar=new MotorData({
+//     name:"MediumDieselCar",
+//     footprint:1.20
+//   });
+//   var LargeDieselCar=new MotorData({
+//     name:"LargeDieselCar",
+//     footprint:1.30
+//
+//   });
+//   var MediumHybridCar=new MotorData({
+//     name:"MediumHybridCar",
+//     footprint:1.20
+//   });
+//   var LargeHybridCar=new MotorData({
+//     name:"LargeHybridCar",
+//     footprint:1.20
+//   });
+//   var MediumLPGCar=new MotorData({
+//     name:"MediumLPGCar",
+//     footprint:1.20
+//   });
+//   var LargeLPGCar=new MotorData({
+//     name:"LargeLPGCar",
+//     footprint:1.20
+//   });
+//   var SmallPetrolVan=new MotorData({
+//     name:"SmallPetrolVan",
+//     footprint:1.20
+//   });
+//   var MediumPetrolCar=new MotorData({
+//     name:"MediumPetrolCar",
+//     footprint:1.20
+//   });
+//   var LargePetrolCar=new MotorData({
+//     name:"LargePetrolCar",
+//     footprint:1.20
+//   });
+//   var MediumCNGCar=new MotorData({
+//     name:"MediumCNGCar",
+//     footprint:1.20
+//   });
+//   var LargeCNGCar=new MotorData({
+//     name:"LargeCNGCar",
+//     footprint:1.20
+//   });
+//
+//
+//
+//   var DomesticFlight=new MotorData({
+//     name:"DomesticFlight",
+//     footprint:1.20
+//   });
+//   var ShortEconomyClassFlight=new MotorData({
+//     name:"ShortEconomyClassFlight",
+//     footprint:1.20
+//   });
+//   var ShortBusinessClassFlight=new MotorData({
+//     name:"ShortBusinessClassFlight",
+//     footprint:1.20
+//   });
+//   var LongEconomyClassFlight=new MotorData({
+//     name:"LongEconomyClassFlight",
+//     footprint:1.20
+//   });
+//   var LongPremiumClassFlight=new MotorData({
+//     name:"LongPremiumClassFlight",
+//     footprint:1.20
+//   });
+//   var LongBusinessClassFlight=new MotorData({
+//     name:"LongBusinessClassFlight",
+//     footprint:1.20
+//   });
+//   var LongFirstClassFlight=new MotorData({
+//     name:"LongFirstClassFlight",
+//     footprint:1.20
+//   });
+//
+//
+//
+//
+//   var Taxi=new MotorData({
+//     name:"Taxi",
+//     footprint:1.20
+//   });
+//   var ClassicBus=new MotorData({
+//     name:"ClassicBus",
+//     footprint:1.20
+//   });
+//   var Coach=new MotorData({
+//     name:"Coach",
+//     footprint:1.20
+//   });
+//   var NationalTrain=new MotorData({
+//     name:"NationalTrain",
+//     footprint:1.20
+//   });
+//   var LightRail=new MotorData({
+//     name:"LightRail",
+//     footprint:1.20
+//   });
+//   var EcoBus=new MotorData({
+//     name:"EcoBus",
+//     footprint:1.20
+//   });
+//   var FerryOnFoot=new MotorData({
+//     name:"FerryOnFoot",
+//     footprint:1.20
+//   });
+//
+//
+//
+//
+//
+// var SmallMotorBike=new MotorData({
+//   name:"SmallMotorBike",
+//   footprint:1.20
+// });
+// var MediumMotorBike=new MotorData({
+//   name:"MediumMotorBike",
+//   footprint:2.20
+// });
+// var LargeMotorBike=new MotorData({
+//   name:"LargeMotorBike",
+//   footprint:3.20
+// });
+// // ,MediumDieselCar, LargeDieselCar, MediumHybridCar, LargeHybridCar, MediumLPGCar, LargeLPGCar, MediumCNGCar, LargeCNGCar, SmallPetrolVan, MediumPetrolCar, LargePetrolCar, DomesticFlight, ShortEconomyClassFlight, ShortBusinessClassFlight, LongEconomyClassFlight, LongPremiumClassFlight, LongBusinessClassFlight, LongFirstClassFlight,Taxi, ClassicBus, Coach, NationalTrain, LightRail,EcoBus, FerryOnFoot
+// MotorData.insertMany([SmallMotorBike,MediumMotorBike,LargeMotorBike ,MediumDieselCar, LargeDieselCar, MediumHybridCar, LargeHybridCar, MediumLPGCar, LargeLPGCar, MediumCNGCar, LargeCNGCar, SmallPetrolVan, MediumPetrolCar, LargePetrolCar, DomesticFlight, ShortEconomyClassFlight, ShortBusinessClassFlight, LongEconomyClassFlight, LongPremiumClassFlight, LongBusinessClassFlight, LongFirstClassFlight,Taxi, ClassicBus, Coach, NationalTrain, LightRail,EcoBus, FerryOnFoot],function(err){
+//   if(err){
+//     console.log(err);
+//   }
+// });
+// count++;
+// }
+//
 
 
 app.listen("3000",function(){

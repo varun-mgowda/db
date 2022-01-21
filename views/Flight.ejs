@@ -30,6 +30,25 @@
 	<label for="vehical">Select the Flight type: </label>
 	<select name="vehical" id="vehical">
 		<option value="">--Please choose an option--</option>
+
+<% if(sel==="DomesticFlight"){ %>
+<option select selected value="DomesticFlight">DomesticFlight</option>
+<%}  if(sel==="ShortEconomyClassFlight"){ %>
+<option select selected value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
+<%}  if(sel==="ShortBusinessClassFlight"){ %>
+<option select selected value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>
+<%}  if(sel==="LongEconomyClassFlight"){ %>
+<option select selected value="LongEconomyClassFlight">LongEconomyClassFlight</option>
+<%}  if(sel==="LongPremiumClassFlight"){ %>
+<option select selected value="LongPremiumClassFlight">LongPremiumClassFlight</option>
+<%}  if(sel==="LongBusinessClassFlight"){ %>
+<option select selected value="LongBusinessClassFlight">LongBusinessClassFlight</option>
+<%}  if(sel==="LongFirstClassFlight"){ %>
+<option select selected value="LongFirstClassFlight">LongFirstClassFlight</option>
+
+
+	 <%}%>
+
 		<option value="DomesticFlight">DomesticFlight</option>
 		<option value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
 		<option value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>

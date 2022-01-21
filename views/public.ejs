@@ -22,6 +22,27 @@
 	<label for="car">Select the type of transportation : </label>
 	<select name="public" id="public">
 		<option value="">--Please choose an option--</option>
+
+
+		<% if(sel==="Taxi"){ %>
+		<option select selected value="SmallDieselCar">Taxi</option>
+		<%}  if(sel==="ClassicBus"){ %>
+		<option select selected value="MediumDieselCar">ClassicBus</option>
+		<%}  if(sel==="Coach"){ %>
+		<option select selected value="Coach">Coach</option>
+		<%}  if(sel==="NationalTrain"){ %>
+		<option select selected value="MediumHybridCar">NationalTrain</option>
+		<%}  if(sel==="LightRail"){ %>
+		<option select selected value="LargeHybridCar">LightRail</option>
+		<%}  if(sel==="EcoBus"){ %>
+		<option select selected value="MediumLPGCar">EcoBus</option>
+		<%}  if(sel==="FerryOnFoot"){ %>
+		<option select selected value="LargeLPGCar">FerryOnFoot</option>
+	
+
+			 <%}%>
+
+
 		<option value="Taxi">Taxi</option>
 		<option value="ClassicBus">ClassicBus</option>
 		<option value="Coach">Coach</option>

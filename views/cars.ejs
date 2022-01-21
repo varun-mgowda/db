@@ -1,11 +1,43 @@
 <%- include("partials/header")%>
-<style >
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:500px;height:40%;"></canvas>
+
+<script>
+	var xValues = ["Global Footprint", "country Footprint", "Your Footprint"];
+	var yValues = [55, 49, <%=pie%>];
+var barColors = [
+
+	"#00ffab",
+	"#4fb056",
+	"#1ef10e"
+
+];
+
+new Chart("myChart", {
+	type: "pie",
+	data: {
+		labels: xValues,
+		datasets: [{
+			backgroundColor: barColors,
+			data: yValues
+		}]
+	},
+	options: {
+		title: {
+			display: true,
+			text:  "Cars carbon footprint analysis."
+		}
+	}
+});
+</script>
+<style>
 	body{
 
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-size: cover;
+
 		background-color:#5CB85C;
 		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
 
@@ -13,6 +45,8 @@
 
 	 }
 </style>
+
+
 
 <h1>Carbon Footprint calculator</h1>
 <h5><%=title%> carbon footprint </h5>
@@ -48,6 +82,8 @@
 
 	 <%}%>
 
+
+
 <option  value="SmallDieselCar">SmallDieselCar</option>
         <option  value="MediumDieselCar">MediumDieselCar</option>
         <option value="LargeDieselCar">LargeDieselCar</option>
@@ -70,7 +106,7 @@
 		</div>
 </form>
 <br>
-
+<p style="color:black;"><%=statement%></p>
 <hr>
 <h2 style="color:white;">Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
 <div class="np-clear nextprev">

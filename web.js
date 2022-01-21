@@ -78,6 +78,21 @@ const DataSchema=new mongoose.Schema({
     distance:Number,
     footprint:Number
   },
+  Flight1:{
+    flightType:String,
+    distance:Number,
+    footprint:Number
+  },
+  Public1:{
+    vehicleType:String,
+    distance:Number,
+    footprint:Number
+  },
+  Motor1:{
+    motorType:String,
+    distance:Number,
+    footprint:Number
+  },
   Result:{
     total:Number
   },
@@ -109,7 +124,9 @@ passport.deserializeUser(function(user, done) {
 
 
 
-
+app.get("/PieChart",function(req,res){
+  res.render("PieChart");
+})
 
 app.get("/",function(req,res){
   if(req.isAuthenticated()){
@@ -173,8 +190,10 @@ if(req.isAuthenticated()){
     cf=user.Car1.footprint;
     var ct=user.Car1.carType;
 }
-
-  res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct});
+if(cf>=20){
+  var statement="I’m like 97% of scientist myself, and I can’t deny … it’s getting hot in here.";
+}
+  res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct,pie:cf,statement:statement});
 
   });
 }
@@ -189,33 +208,61 @@ else{
 });
 
 app.get("/CarTravelClear",function(req,res){
-carbonFootprintResult=carbonFootprintResult-carbonFootprint1;
-if(carbonFootprintResult<0){
-  carbonFootprintResult=0;
-}
-const result={
-total:carbonFootprintResult
-}
-Data.findByIdAndUpdate(_id, { $set: { Result:result }}, function(err){
-  if(err){
-    console.log(err);
+
+  const motor1={
+    carType:"",
+    distance:0,
+    footprint:0
   }
-})
+    Data.findOne({_id:_id}, function (err, user) {
+  if(user.entry==="entry1"){
+      carbonFootprintResult=carbonFootprintResult-carbonFootprint1;
+      if(carbonFootprintResult<0){
+        carbonFootprintResult=0;
+      }
+      const result={
+      total:carbonFootprintResult
+      }
+      Data.findByIdAndUpdate(_id, { $set: { Result:result }}, function(err){
+        if(err){
+          console.log(err);
+        }
+      })
+      Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
+        if(err){
+          console.log(err);
+        }
 
-const motor1={
-  carType:"",
-  distance:0,
-  footprint:0
-}
+      })
+
+    }
+    else{
+      carbonFootprintResult1=carbonFootprintResult1-carbonFootprint11;
+      if(carbonFootprintResult1<0){
+        carbonFootprintResult1=0;
+      }
+      const result={
+      total:carbonFootprintResult1
+      }
+      Data.findByIdAndUpdate(_id, { $set: { Result1:result }}, function(err){
+        if(err){
+          console.log(err);
+        }
+      })
+      Data.findByIdAndUpdate(_id, { $set: { Car1: motor1 }}, function(err){
+        if(err){
+          console.log(err);
+        }
+
+      })
+    }
+  })
 
 
-Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
-  if(err){
-    console.log(err);
-  }
 
-})
-    res.render("cars",{title:"Cars",carbon:0,dist:0,sel:"--Please choose an option--"});
+
+
+    res.render("cars",{title:"Cars",carbon:0,dist:0,sel:"--Please choose an option--",pie:cf,statement:""});
 
 
 });
@@ -376,7 +423,7 @@ app.get("/results",function(req,res){
 // carbonFootprintResult=  Math.round(carbonFootprintResult * 100) / 100;
   if(req.isAuthenticated()){
 Data.findOne({_id:_id}, function (err, user) {
-if(user.entry==1){
+if(user.entry=="entry1"){
   var Final=user.Result.total;
 }
 else{
@@ -413,7 +460,27 @@ app.get("/results2",function(req,res){
 
             var c=user.Result.total;
 
-      res.render("results2",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c});
+                    cd1=user.Car1.distance;
+                    cf1=user.Car1.footprint;
+                    var ct1=user.Car1.carType;
+
+
+                  fd1=user.Flight1.distance;
+                  ff1=user.Flight1.footprint;
+                  ft1=user.Flight1.flightType;
+
+                  md1=user.Motor1.distance;
+                  mf1=user.Motor1.footprint;
+                 mt1=user.Motor1.motorType;
+
+
+                  pd1=user.Public1.distance;
+                  pf1=user.Public1.footprint;
+                  pt1=user.Public1.vehicleType;
+
+                  var c1=user.Result1.total;
+
+      res.render("results2",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,footprint11:cf1});
     });
   }
   else{

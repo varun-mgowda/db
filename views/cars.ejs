@@ -1,5 +1,11 @@
 <%- include("partials/header")%>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <canvas id="myChart" style="width:100%;max-width:500px;height:40%;"></canvas>
 
 <script>
@@ -38,12 +44,16 @@ new Chart("myChart", {
 		background-attachment: fixed;
 		background-size: cover;
 
-		background-color:#5CB85C;
-		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
+		/* background-color:#5CB85C; */
+		 /* background-image: url("https://wallpapercave.com/wp/wp5820973.jpg"); */
 
 
 
 	 }
+	 /* .card{
+		 width:50%;
+		 text-align:center;
+	 } */
 
 </style>
 
@@ -54,10 +64,19 @@ new Chart("myChart", {
 <form id="cars" action="/CarTravel" method="post" class="form">
 	<label for="car">Select the car type: </label>
 	<select name="cars" id="car">
-		<option value="">--Please choose an option--</option>
 
+
+
+
+<% if(sel==="--Please choose an option--"){ %>
+<option select selected value="" disabled><%=sel%></option>
+<%}else{%>
+<option select selected value="<%=sel%>"><%=sel%></option>
+<%}%>
+
+<!--
 <% if(sel==="SmallDieselCar"){ %>
-<option select selected value="SmallDieselCar">SmallDieselCar</option>
+<option select selected value="SmallDieselCar"><%=sel%></option>
 <%}  if(sel==="MediumDieselCar"){ %>
 <option select selected value="MediumDieselCar">MediumDieselCar</option>
 <%}  if(sel==="LargeDieselCar"){ %>
@@ -81,7 +100,7 @@ new Chart("myChart", {
 <%}  if(sel==="LargeCNGCar"){ %>
 <option select selected value="MediumDieselCar">LargeCNGCar</option>
 
-	 <%}%>
+	 <%}%> -->
 
 
 
@@ -100,16 +119,71 @@ new Chart("myChart", {
 
     </select>
       <br>
+			<label for="fuel">Enter the Fuel consumption in L/100km:</label>
+		<input  id="fuel" name ="fuel" type="number"  value="<%=fuel%>"  min=0 max=10000 placeholder="0">
+		<br />
       <label class="card-text" for="distance" >Enter the distance you travelled in Kms: </label>
       <input id="dist" type="number" name="distance" min=0 max=10000 placeholder="0" value="<%=dist%>">
-		<div class="np-clear nextprev">
-			<button type="submit" name="button" class="np-clea">Calculate</button>
-		</div>
+
+
+
+<hr>
+
+<p>
+
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Add another entry
+  </button>
+</p>
+<hr>
+<div class="collapse" id="collapseExample">
+
+
+    	<label for="car">Select the car type: </label>
+    	<select name="cars2" id="car">
+
+
+				<% if(sel2==="--Please choose an option--"){ %>
+				<option select selected value="" disabled><%=sel2%></option>
+				<%}else{%>
+				<option select selected value="<%=sel2%>"><%=sel2%></option>
+				<%}%>
+
+
+
+        <option  value="SmallDieselCar">SmallDieselCar</option>
+                <option  value="MediumDieselCar">MediumDieselCar</option>
+                <option value="LargeDieselCar">LargeDieselCar</option>
+                <option value="MediumHybridCar">MediumHybridCar</option>
+                <option value="LargeHybridCar">LargeHybridCar</option>
+                <option value="MediumLPGCar">MediumLPGCar</option>
+                <option value="LargeLPGCar">LargeLPGCar</option>
+                <option value="SmallPetrolVan">SmallPetrolVan</option>
+            <option value="MediumPetrolCar">MediumPetrolCar</option>
+            <option value="LargePetrolCar">LargePetrolCar</option>
+            <option value="MediumCNGCar">MediumCNGCar</option>
+            <option value="LargeCNGCar">LargeCNGCar</option>
+
+            </select>
+              <br>
+							<label for="fuel2" >Enter the Fuel consumption in L/100km:</label>
+						<input  id="fuel2" type="number" name="fuel2" value="<%=fuel2%>"  min=0 max=10000 placeholder="0">
+						<br />
+
+              <label class="card-text" for="distance" >Enter the distance you travelled in Kms: </label>
+              <input id="dist" type="number" name="distance2" min=0 max=10000 placeholder="0" value="<%=dist2%>">
+
+  </div>
+
+<div class="np-clear nextprev">
+	<button style="margin-top:15px;" type="submit" name="button" class="np-clea">Calculate</button>
+</div>
 </form>
+
 <hr>
 <p style="color:black;"><%=statement%></p>
 
-<h2 style="color:white;">Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
+<h2 style="color:black;">Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
 <div class="np-clear nextprev">
 	<a class="np-right ws-btn" href="/Flight">Next ❯</a>
 	<a id="anchor" class="np-first" href="/CarTravelClear">Clear 🗘</a>

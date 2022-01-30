@@ -57,7 +57,11 @@ const DataSchema=new mongoose.Schema({
   Car:{
     carType:String,
     distance:Number,
-    footprint:Number
+    fuel:Number,
+    footprint:Number,
+    carType2:String,
+    distance2:Number,
+    fuel2:Number
   },
   Flight:{
     flightType:String,
@@ -77,7 +81,12 @@ const DataSchema=new mongoose.Schema({
   Car1:{
     carType:String,
     distance:Number,
-    footprint:Number
+    fuel:Number,
+    footprint:Number,
+    carType2:String,
+    distance2:Number,
+    fuel2:Number
+
   },
   Flight1:{
     flightType:String,
@@ -183,22 +192,31 @@ if(req.isAuthenticated()){
   Data.findOne({_id:_id}, function (err, user) {
     if(user.entry==="entry1"){
     cd=user.Car.distance;
+    cfu=user.Car.fuel;
     cf=user.Car.footprint;
     var ct=user.Car.carType;
-    console.log(user.Car.carType);
+    cd2=user.Car.distance2;
+    cfu2=user.Car.fuel2;
+    var ct2=user.Car.carType2;
+
+
     }
     else{
     cd=user.Car1.distance;
+    cfu=user.Car1.fuel;
     cf=user.Car1.footprint;
     var ct=user.Car1.carType;
+    cd2=user.Car1.distance2;
+    cfu2=user.Car1.fuel2;
+    var ct2=user.Car1.carType2;
 }
-if(cf<=20){
+if(cf<=20 && cf>0){
   var statement="I’m like 97% of scientist myself, and I can’t deny … it’s getting hot in here.";
 }
 else if(cf>20&& cf<40){
   var statement="Love water not Oil";
 }
-  res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct,pie:cf,statement:statement});
+  res.render("cars",{title:"Cars",carbon:cf,dist:cd,sel:ct,pie:cf,statement:statement,fuel:cfu,dist2:cd2,sel2:ct2,fuel2:cfu2});
 
   });
 }
@@ -219,10 +237,15 @@ else{
 app.get("/CarTravelClear",function(req,res){
 
   const motor1={
-    carType:"",
+    carType:"--Please choose an option--",
     distance:0,
-    footprint:0
+    fuel:0,
+    footprint:0,
+    carType2:0,
+    distance2:0,
+    fuel2:0
   }
+
     Data.findOne({_id:_id}, function (err, user) {
   if(user.entry==="entry1"){
       carbonFootprintResult=carbonFootprintResult-carbonFootprint1;
@@ -232,6 +255,10 @@ app.get("/CarTravelClear",function(req,res){
       const result={
       total:carbonFootprintResult
       }
+        carbonFootprint1=0;
+
+
+
       Data.findByIdAndUpdate(_id, { $set: { Result:result }}, function(err){
         if(err){
           console.log(err);
@@ -253,6 +280,7 @@ app.get("/CarTravelClear",function(req,res){
       const result={
       total:carbonFootprintResult1
       }
+      carbonFootprint11=0;
       Data.findByIdAndUpdate(_id, { $set: { Result1:result }}, function(err){
         if(err){
           console.log(err);
@@ -271,7 +299,7 @@ app.get("/CarTravelClear",function(req,res){
 
 
 
-    res.render("cars",{title:"Cars",carbon:0,dist:0,sel:"--Please choose an option--",pie:cf,statement:""});
+    res.render("cars",{title:"Cars",carbon:0,dist:0,sel:"--Please choose an option--",pie:cf,statement:"",fuel:0,dist2:0,sel2:"--Please choose an option--",fuel2:0});
 
 
 });
@@ -602,7 +630,12 @@ app.get("/results2",function(req,res){
 
       cd=user.Car.distance;
       cf=user.Car.footprint;
+      cfu=user.Car.fuel;
       var ct=user.Car.carType;
+      cd2=user.Car.distance2;
+      cf2=user.Car.footprint/3;
+      cfu2=user.Car.fuel2;
+      var ct2=user.Car.carType2;
 
 
             fd=user.Flight.distance;
@@ -622,7 +655,12 @@ app.get("/results2",function(req,res){
 
                     cd1=user.Car1.distance;
                     cf1=user.Car1.footprint;
+                    cfu1=user.Car1.fuel;
                     var ct1=user.Car1.carType;
+                    cd22=user.Car1.distance2;
+                    cf22=user.Car1.footprint*3;
+                    cfu22=user.Car1.fuel2;
+                    var ct22=user.Car1.carType2;
 
 
                   fd1=user.Flight1.distance;
@@ -640,7 +678,7 @@ app.get("/results2",function(req,res){
 
                   var c1=user.Result1.total;
 
-      res.render("results2",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,footprint11:cf1,vehicle12:ft1,distance12:fd1,footprint12:ff1,vehicle13:mt1,distance13:md1,footprint13:mf1,vehicle14:pt1,distance14:pd1,footprint14:pf1,carbon1:c1});
+      res.render("results2",{vehicle1:ct,distance1:cd,fuel1:cfu,vehicle21:ct2,distance22:cd2,fuel23:cfu2,footprint24:cf2,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,fuel11:cfu1,footprint11:cf1,vehicle31:ct22,distance32:cd22,fuel33:cfu22,footprint34:cf22,vehicle12:ft1,distance12:fd1,footprint12:ff1,vehicle13:mt1,distance13:md1,footprint13:mf1,vehicle14:pt1,distance14:pd1,footprint14:pf1,carbon1:c1});
     });
   }
   else{
@@ -656,7 +694,13 @@ app.get("/results22",function(req,res){
 
       cd=user.Car.distance;
       cf=user.Car.footprint;
+      cfu=user.Car.fuel;
       var ct=user.Car.carType;
+      cd11=user.Car.distance2;
+      cf11=user.Car.footprint/3;
+      cfu11=user.Car.fuel2;
+      var ct11=user.Car.carType2;
+
 
 
             fd=user.Flight.distance;
@@ -677,6 +721,12 @@ app.get("/results22",function(req,res){
                     cd1=user.Car1.distance;
                     cf1=user.Car1.footprint;
                     var ct1=user.Car1.carType;
+                      cfu1=user.Car.fuel;
+
+                      cd22=user.Car1.distance2;
+                      cf22=(user.Car1.footprint)*3;
+                      cfu22=user.Car1.fuel2;
+                      var ct22=user.Car1.carType2;
 
 
                   fd1=user.Flight1.distance;
@@ -694,7 +744,7 @@ app.get("/results22",function(req,res){
 
                   var c1=user.Result1.total;
 
-      res.render("results22",{vehicle1:ct,distance1:cd,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,footprint11:cf1,vehicle12:ft1,distance12:fd1,footprint12:ff1,vehicle13:mt1,distance13:md1,footprint13:mf1,vehicle14:pt1,distance14:pd1,footprint14:pf1,carbon1:c1});
+      res.render("results22",{vehicle1:ct,distance1:cd,fuel1:cfu,footprint1:cf,vehicle21:ct11,distance22:cd11,fuel23:cfu11,footprint24:cf11,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,fuel11:cfu1,footprint11:cf1,vehicle31:ct22,distance32:cd22,fuel33:cfu22,footprint34:cf22,vehicle12:ft1,distance12:fd1,footprint12:ff1,vehicle13:mt1,distance13:md1,footprint13:mf1,vehicle14:pt1,distance14:pd1,footprint14:pf1,carbon1:c1});
     });
   }
   else{
@@ -736,6 +786,10 @@ app.get("/clear",function(re,res){
   Data.findOne({_id:_id}, function (err, user) {
   if(user.entry==="entry1"){
 carbonFootprintResult=0;
+carbonFootprint1=0;
+carbonFootprint2=0;
+carbonFootprint3=0;
+carbonFootprint4=0;
 
 const result={
 total:carbonFootprintResult
@@ -748,9 +802,14 @@ Data.findByIdAndUpdate(_id, { $set: { Result:result }}, function(err){
 
 
 const motor1={
-  carType:"",
+  carType:"--Please choose an option--",
   distance:0,
-  footprint:0
+  fuel:0,
+  footprint:0,
+  carType2:"--Please choose an option--",
+  distance2:0,
+  fuel2:0
+
 }
 
 
@@ -763,7 +822,7 @@ Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
 
 
   const motor2={
-    motorType:"",
+    motorType:"--Please choose an option--",
     distance:0,
     footprint:0
   }
@@ -777,7 +836,7 @@ Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
   })
 
   const motor3={
-    flightType:"",
+    flightType:"--Please choose an option--",
     distance:0,
     footprint:0
   }
@@ -792,7 +851,7 @@ Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
 
 
   const motor4={
-    vehicleType:"",
+    vehicleType:"--Please choose an option--",
     distance:0,
     footprint:0
   }
@@ -807,7 +866,10 @@ Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
 }
 else{
   carbonFootprintResult1=0;
-
+carbonFootprint11=0;
+carbonFootprint12=0;
+carbonFootprint13=0;
+carbonFootprint14=0;
   const result={
   total:carbonFootprintResult1
   }
@@ -819,9 +881,14 @@ else{
 
 
   const motor1={
-    carType:"",
+    carType:"--Please choose an option--",
     distance:0,
-    footprint:0
+    fuel:0,
+    footprint:0,
+    carType2:"--Please choose an option--",
+    distance2:0,
+    fuel2:0
+
   }
 
 
@@ -834,7 +901,7 @@ else{
 
 
     const motor2={
-      motorType:"",
+      motorType:"--Please choose an option--",
       distance:0,
       footprint:0
     }
@@ -848,7 +915,7 @@ else{
     })
 
     const motor3={
-      flightType:"",
+      flightType:"--Please choose an option--",
       distance:0,
       footprint:0
     }
@@ -863,7 +930,7 @@ else{
 
 
     const motor4={
-      vehicleType:"",
+      vehicleType:"--Please choose an option--",
       distance:0,
       footprint:0
     }
@@ -924,6 +991,165 @@ app.post("/register",function(req,res){
     }
     else{
       passport.authenticate("local")(req,res,function(){
+_id=user2._id;
+
+
+        Data.findOne({_id:_id}, function (err, user) {
+
+      carbonFootprintResult=0;
+
+      const result={
+      total:carbonFootprintResult
+      }
+      Data.findByIdAndUpdate(_id, { $set: { Result:result }}, function(err){
+        if(err){
+          console.log(err);
+        }
+      })
+
+
+      const motor1={
+        carType:"--Please choose an option--",
+        distance:0,
+        fuel:0,
+        footprint:0,
+        carType2:"--Please choose an option--",
+        distance2:0,
+        fuel2:0
+      }
+
+
+      Data.findByIdAndUpdate(_id, { $set: { Car: motor1 }}, function(err){
+        if(err){
+          console.log(err);
+        }
+
+      })
+
+
+        const motor2={
+          motorType:"--Please choose an option--",
+          distance:0,
+          footprint:0
+        }
+
+
+        Data.findByIdAndUpdate(_id, { $set: { Motor: motor2 }}, function(err){
+          if(err){
+            console.log(err);
+          }
+
+        })
+
+        const motor3={
+          flightType:"--Please choose an option--",
+          distance:0,
+          footprint:0
+        }
+
+
+        Data.findByIdAndUpdate(_id, { $set: { Flight: motor3 }}, function(err){
+          if(err){
+            console.log(err);
+          }
+
+        })
+
+
+        const motor4={
+          vehicleType:"--Please choose an option--",
+          distance:0,
+          footprint:0
+        }
+
+
+        Data.findByIdAndUpdate(_id, { $set: { Public: motor4 }}, function(err){
+          if(err){
+            console.log(err);
+          }
+
+        })
+
+
+        carbonFootprintResult1=0;
+
+        const resultInit={
+        total:carbonFootprintResult1
+        }
+        Data.findByIdAndUpdate(_id, { $set: { Result1:resultInit }}, function(err){
+          if(err){
+            console.log(err);
+          }
+        })
+
+
+        const motor1Init={
+          carType:"--Please choose an option--",
+          distance:0,
+          fuel:0,
+          footprint:0,
+          carType2:"--Please choose an option--",
+          distance2:0,
+          fuel2:0
+        }
+
+
+        Data.findByIdAndUpdate(_id, { $set: { Car1: motor1Init }}, function(err){
+          if(err){
+            console.log(err);
+          }
+
+        })
+
+
+          const motor2Init={
+            motorType:"--Please choose an option--",
+            distance:0,
+            footprint:0
+          }
+
+
+          Data.findByIdAndUpdate(_id, { $set: { Motor1: motor2Init }}, function(err){
+            if(err){
+              console.log(err);
+            }
+
+          })
+
+          const motor3Init={
+            flightType:"--Please choose an option--",
+            distance:0,
+            footprint:0
+          }
+
+
+          Data.findByIdAndUpdate(_id, { $set: { Flight1: motor3Init }}, function(err){
+            if(err){
+              console.log(err);
+            }
+
+          })
+
+
+          const motor4Init={
+            vehicleType:"--Please choose an option--",
+            distance:0,
+            footprint:0
+          }
+
+
+          Data.findByIdAndUpdate(_id, { $set: { Public1: motor4Init }}, function(err){
+            if(err){
+              console.log(err);
+            }
+
+          })
+
+      })
+
+
+
+
         res.redirect("/login");
       });
     }
@@ -941,6 +1167,11 @@ const z=req.params["a"];
 if(z==="CarTravel"){                     //checking the route type to pass it to the API path
      a=req.body.cars;
 carsDist=req.body.distance;
+cfuel=req.body.fuel;
+a2=req.body.cars2;
+carsDist2=req.body.distance2;
+cfuel2=req.body.fuel2;
+console.log(cfuel2);
 }
 else if(z==="Flight"){
    a=req.body.vehical;
@@ -970,7 +1201,7 @@ const options = {
 	"path": "/CarbonFootprintFrom"+z+"?distance="+b+"&"+type+"="+a,
 	"headers": {
 		"x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
-    "x-rapidapi-key": "e692b4c540msh177df994cbab230p1ad0e8jsn7d7f74d478b4",
+    "x-rapidapi-key": "78adb68739mshb22516f71690304p19bc1djsn7cc905175115",
 		"useQueryString": true
 	}
 };
@@ -1041,14 +1272,20 @@ else{
 else if(z==="CarTravel"){
 
     Data.findOne({_id:_id}, function (err, user) {
-      carbonFootprint1=JSON.parse(body).carbonEquivalent;
+        var prev=JSON.parse(body).carbonEquivalent;
+      carbonFootprint1+=JSON.parse(body).carbonEquivalent;
       // carbonFootprint1 = carbonFootprint1.toFixed(2);
-      carbonFootprintResult+=carbonFootprint1;
+      carbonFootprintResult+=prev;
       if(user.entry==="entry1"){
         const car={
           carType:a,
           distance:carsDist,
-          footprint:carbonFootprint1
+          fuel:cfuel,
+          footprint:carbonFootprint1,
+          carType2:a2,
+          distance2:carsDist2,
+          fuel2:cfuel2
+
         }
 
         Data.findByIdAndUpdate(_id, { $set: { Car: car }}, options, function(err){
@@ -1059,13 +1296,19 @@ else if(z==="CarTravel"){
 
       }
       else{
-        carbonFootprint11=JSON.parse(body).carbonEquivalent;
+        var prev=JSON.parse(body).carbonEquivalent;
+        carbonFootprint11+=JSON.parse(body).carbonEquivalent;
 
-        carbonFootprintResult1+=carbonFootprint11;
+        carbonFootprintResult1+=prev;
+
         const car={
           carType:a,
           distance:carsDist,
-          footprint:carbonFootprint11
+          fuel:cfuel,
+          footprint:carbonFootprint11,
+          carType2:a2,
+          distance2:carsDist2,
+          fuel2:cfuel2
         }
 
         Data.findByIdAndUpdate(_id, { $set: { Car1: car }}, options, function(err){

@@ -10,7 +10,7 @@
 
 <script>
 	var xValues = ["Global Footprint", "country Footprint", "Your Footprint"];
-	var yValues = [10, 10, <%=pie%>];
+	var yValues = [10, 15, <%=pie%>];
 var barColors = [
 
 	"#00ffab",
@@ -43,9 +43,12 @@ new Chart("myChart", {
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-size: cover;
+		color:white;
+		/* background-color:#639c9b; */
+
 
 		/* background-color:#5CB85C; */
-		 /* background-image: url("https://wallpapercave.com/wp/wp5820973.jpg"); */
+		 background-image: url("https://images.unsplash.com/photo-1623680391265-df20fdc90a16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8Nnx8fGVufDB8fHx8&w=1000&q=80");
 
 
 
@@ -124,7 +127,10 @@ new Chart("myChart", {
 		<br />
       <label class="card-text" for="distance" >Enter the distance you travelled in Kms: </label>
       <input id="dist" type="number" name="distance" min=0 max=10000 placeholder="0" value="<%=dist%>">
-
+			<div class="np-clear nextprev">
+				<button style="margin-top:15px;" type="submit" name="button" class="np-clea">Calculate</button>
+			</div>
+			</form>
 
 
 <hr>
@@ -138,7 +144,7 @@ new Chart("myChart", {
 <hr>
 <div class="collapse" id="collapseExample">
 
-
+<form id="cars" action="/CarTravel2" method="post" class="form">
     	<label for="car">Select the car type: </label>
     	<select name="cars2" id="car">
 
@@ -172,18 +178,19 @@ new Chart("myChart", {
 
               <label class="card-text" for="distance" >Enter the distance you travelled in Kms: </label>
               <input id="dist" type="number" name="distance2" min=0 max=10000 placeholder="0" value="<%=dist2%>">
+							<div class="np-clear nextprev">
+								<button style="margin-top:15px;" type="submit" name="button2" class="np-clea">Calculate</button>
+							</div>
+							</form>
 
   </div>
 
-<div class="np-clear nextprev">
-	<button style="margin-top:15px;" type="submit" name="button" class="np-clea">Calculate</button>
-</div>
-</form>
+
 
 <hr>
-<p style="color:black;"><%=statement%></p>
+<p style="color:white;"><%=statement%></p>
 
-<h2 style="color:black;">Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
+<h2 style="color:white;">Total Car Footprint = <%=carbon%> metric tons of CO2e.</h2>
 <div class="np-clear nextprev">
 	<a class="np-right ws-btn" href="/Flight">Next ❯</a>
 	<a id="anchor" class="np-first" href="/CarTravelClear">Clear 🗘</a>

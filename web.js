@@ -61,7 +61,9 @@ const DataSchema=new mongoose.Schema({
     footprint:Number,
     carType2:String,
     distance2:Number,
-    fuel2:Number
+    fuel2:Number,
+    footprint2:Number,
+    footprint1:Number
   },
   Flight:{
     flightType:String,
@@ -85,7 +87,9 @@ const DataSchema=new mongoose.Schema({
     footprint:Number,
     carType2:String,
     distance2:Number,
-    fuel2:Number
+    fuel2:Number,
+    footprint2:Number,
+    footprint1:Number
 
   },
   Flight1:{
@@ -629,11 +633,11 @@ app.get("/results2",function(req,res){
     Data.findOne({_id:_id}, function (err, user) {
 
       cd=user.Car.distance;
-      cf=user.Car.footprint;
+      cf=user.Car.footprint1;
       cfu=user.Car.fuel;
       var ct=user.Car.carType;
       cd2=user.Car.distance2;
-      cf2=user.Car.footprint/3;
+      cf2=user.Car.footprint2;
       cfu2=user.Car.fuel2;
       var ct2=user.Car.carType2;
 
@@ -654,11 +658,11 @@ app.get("/results2",function(req,res){
             var c=user.Result.total;
 
                     cd1=user.Car1.distance;
-                    cf1=user.Car1.footprint;
+                    cf1=user.Car1.footprint1;
                     cfu1=user.Car1.fuel;
                     var ct1=user.Car1.carType;
                     cd22=user.Car1.distance2;
-                    cf22=user.Car1.footprint*3;
+                    cf22=user.Car1.footprint2;
                     cfu22=user.Car1.fuel2;
                     var ct22=user.Car1.carType2;
 
@@ -693,11 +697,11 @@ app.get("/results22",function(req,res){
     Data.findOne({_id:_id}, function (err, user) {
 
       cd=user.Car.distance;
-      cf=user.Car.footprint;
+      cf=user.Car.footprint1;
       cfu=user.Car.fuel;
       var ct=user.Car.carType;
       cd11=user.Car.distance2;
-      cf11=user.Car.footprint/3;
+      cf11=user.Car.footprint2;
       cfu11=user.Car.fuel2;
       var ct11=user.Car.carType2;
 
@@ -719,12 +723,12 @@ app.get("/results22",function(req,res){
             var c=user.Result.total;
 
                     cd1=user.Car1.distance;
-                    cf1=user.Car1.footprint;
+                    cf1=user.Car1.footprint1;
                     var ct1=user.Car1.carType;
                       cfu1=user.Car.fuel;
 
                       cd22=user.Car1.distance2;
-                      cf22=(user.Car1.footprint)*3;
+                      cf22=user.Car1.footprint2;
                       cfu22=user.Car1.fuel2;
                       var ct22=user.Car1.carType2;
 
@@ -1163,32 +1167,42 @@ _id=user2._id;
 app.post("/:a",function(req,response){
 
  b=req.body.distance;
-const z=req.params["a"];
+var z=req.params["a"];
 if(z==="CarTravel"){                     //checking the route type to pass it to the API path
      a=req.body.cars;
 carsDist=req.body.distance;
 cfuel=req.body.fuel;
-a2=req.body.cars2;
-carsDist2=req.body.distance2;
-cfuel2=req.body.fuel2;
-console.log(cfuel2);
+var type1="CarTravel";
+
+
+}
+else if(z=="CarTravel2"){
+  b=req.body.distance2;
+  a=req.body.cars2;
+  carsDist=req.body.distance2;
+  cfuel=req.body.fuel2;
+  var type1="CarTravel";
+  console.log(carsDist);
 }
 else if(z==="Flight"){
    a=req.body.vehical;
    flightDist=req.body.distance;
+     var type1="Flight";
 }
 else if(z==="PublicTransit"){
   a=req.body.public;
   publicDist=req.body.distance;
+    var type1="PublicTransit";
 }
 else{
    a=req.body.bike;
    motorDist=req.body.distance;
+     var type1="MotorBike";
 }
 
 
 var type="";
-if(z==="CarTravel"){
+if(z==="CarTravel" || z==="CarTravel2"){
   type="vehicle";
 }                                              //setting type for url
 else{
@@ -1198,7 +1212,7 @@ const options = {
 	"method": "GET",
 	"hostname": "carbonfootprint1.p.rapidapi.com",
 	"port": null,
-	"path": "/CarbonFootprintFrom"+z+"?distance="+b+"&"+type+"="+a,
+	"path": "/CarbonFootprintFrom"+type1+"?distance="+b+"&"+type+"="+a,
 	"headers": {
 		"x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
     "x-rapidapi-key": "78adb68739mshb22516f71690304p19bc1djsn7cc905175115",
@@ -1218,7 +1232,7 @@ const request = https.request(options, function (res) {
 
 
   const y=["/",z];
-  const x=y.join('');
+  var x=y.join('');
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////flight /////////////////////////////////////////////////////////////////////////////
  if(z==="Flight"){
@@ -1277,15 +1291,21 @@ else if(z==="CarTravel"){
       // carbonFootprint1 = carbonFootprint1.toFixed(2);
       carbonFootprintResult+=prev;
       if(user.entry==="entry1"){
+
+
+
+
+
         const car={
           carType:a,
           distance:carsDist,
           fuel:cfuel,
           footprint:carbonFootprint1,
-          carType2:a2,
-          distance2:carsDist2,
-          fuel2:cfuel2
-
+          carType2:user.Car.carType2,
+          distance2:user.Car.distance2,
+          fuel2:user.Car.fuel2,
+          footprint1:prev,
+          footprint2:user.Car.footprint2
         }
 
         Data.findByIdAndUpdate(_id, { $set: { Car: car }}, options, function(err){
@@ -1306,9 +1326,12 @@ else if(z==="CarTravel"){
           distance:carsDist,
           fuel:cfuel,
           footprint:carbonFootprint11,
-          carType2:a2,
-          distance2:carsDist2,
-          fuel2:cfuel2
+          carType2:user.Car1.carType2,
+          distance2:user.Car1.distance2,
+          fuel2:user.Car1.fuel2,
+          footprint1:prev,
+          footprint2:user.Car1.footprint2
+
         }
 
         Data.findByIdAndUpdate(_id, { $set: { Car1: car }}, options, function(err){
@@ -1319,6 +1342,66 @@ else if(z==="CarTravel"){
       }
     });
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////CarTravel2 /////////////////////////////////////////////////////////////////////////////
+else if(z==="CarTravel2"){
+
+    Data.findOne({_id:_id}, function (err, user) {
+        var prev=JSON.parse(body).carbonEquivalent;
+      carbonFootprint1+=JSON.parse(body).carbonEquivalent;
+      // carbonFootprint1 = carbonFootprint1.toFixed(2);
+      carbonFootprintResult+=prev;
+      if(user.entry==="entry1"){
+        const car={
+          carType:user.Car.carType,
+          distance:user.Car.distance,
+          fuel:user.Car.fuel,
+          footprint:carbonFootprint1,
+          carType2:a,
+          distance2:carsDist,
+          fuel2:cfuel,
+          footprint2:prev,
+          footprint1:user.Car.footprint1
+
+        }
+
+        Data.findByIdAndUpdate(_id, { $set: { Car: car }}, options, function(err){
+          if(err){
+            console.log(err);
+          }
+        })
+
+      }
+      else{
+        var prev=JSON.parse(body).carbonEquivalent;
+        carbonFootprint11+=JSON.parse(body).carbonEquivalent;
+
+        carbonFootprintResult1+=prev;
+
+        const car={
+          carType:user.Car1.carType,
+          distance:user.Car1.distance,
+          fuel:user.Car1.fuel,
+          footprint:carbonFootprint11,
+          carType2:a,
+          distance2:carsDist,
+          fuel2:cfuel,
+          footprint2:prev,
+          footprint1:user.Car1.footprint1
+        }
+
+        Data.findByIdAndUpdate(_id, { $set: { Car1: car }}, options, function(err){
+          if(err){
+            console.log(err);
+          }
+        })
+      }
+
+    });
+x="/CarTravel";
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////public /////////////////////////////////////////////////////////////////////////////
 else if(z==="PublicTransit"){

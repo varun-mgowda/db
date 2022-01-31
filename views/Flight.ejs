@@ -38,8 +38,8 @@ new Chart("myChart", {
 		background-attachment: fixed;
 		background-size: cover;
 		background-color:#5CB85C;
-		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
-
+		 background-image: url("https://images.unsplash.com/photo-1623680391265-df20fdc90a16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8Nnx8fGVufDB8fHx8&w=1000&q=80");
+color:white;
 
 
 	 }
@@ -60,25 +60,14 @@ new Chart("myChart", {
 
 	<label for="vehical">Select the Flight type: </label>
 	<select name="vehical" id="vehical">
-		<option value="">--Please choose an option--</option>
 
-<% if(sel==="DomesticFlight"){ %>
-<option select selected value="DomesticFlight">DomesticFlight</option>
-<%}  if(sel==="ShortEconomyClassFlight"){ %>
-<option select selected value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
-<%}  if(sel==="ShortBusinessClassFlight"){ %>
-<option select selected value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>
-<%}  if(sel==="LongEconomyClassFlight"){ %>
-<option select selected value="LongEconomyClassFlight">LongEconomyClassFlight</option>
-<%}  if(sel==="LongPremiumClassFlight"){ %>
-<option select selected value="LongPremiumClassFlight">LongPremiumClassFlight</option>
-<%}  if(sel==="LongBusinessClassFlight"){ %>
-<option select selected value="LongBusinessClassFlight">LongBusinessClassFlight</option>
-<%}  if(sel==="LongFirstClassFlight"){ %>
-<option select selected value="LongFirstClassFlight">LongFirstClassFlight</option>
+		<% if(sel==="--Please choose an option--"){ %>
+		<option select selected value="" disabled><%=sel%></option>
+		<%}else{%>
+		<option select selected value="<%=sel%>"><%=sel%></option>
+		<%}%>
 
 
-	 <%}%>
 
 		<option value="DomesticFlight">DomesticFlight</option>
 		<option value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
@@ -89,6 +78,13 @@ new Chart("myChart", {
 		<option value="LongFirstClassFlight">LongFirstClassFlight</option>
 	</select>
 	<br>
+
+<!-- <label for="from">From :</label>
+<select class="" id="from" name="from">
+	<option value=""></option>
+</select> -->
+
+
 	<label for="distance">Enter the distance you travelled in Kms: </label>
 	<input type="number" name="distance" min=0 max=10000 placeholder="0" value="<%=dist%>">
 	<br>
@@ -98,8 +94,72 @@ new Chart("myChart", {
   </div>
   <hr>
 </form>
+
+
+
+<hr>
+
+<p>
+
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Add another entry
+  </button>
+</p>
+<hr>
+<div class="collapse" id="collapseExample">
+
+
+	<form action="/Flight" method="post">
+		<div name="ways">
+			<label for="one">One way flight</label>
+			<input type="radio" name="radioButtons" id="one" value="one" checked=checked>
+			<label for="two">Two way flight</label>
+			<input type="radio" name="radioButtons" id="two" value="two">
+
+		</div>
+
+		<label for="vehical">Select the Flight type: </label>
+		<select name="vehical" id="vehical">
+
+			<% if(sel==="--Please choose an option--"){ %>
+			<option select selected value="" disabled><%=sel%></option>
+			<%}else{%>
+			<option select selected value="<%=sel%>"><%=sel%></option>
+			<%}%>
+
+        <option  value="SmallDieselCar">SmallDieselCar</option>
+                <option  value="MediumDieselCar">MediumDieselCar</option>
+                <option value="LargeDieselCar">LargeDieselCar</option>
+                <option value="MediumHybridCar">MediumHybridCar</option>
+                <option value="LargeHybridCar">LargeHybridCar</option>
+                <option value="MediumLPGCar">MediumLPGCar</option>
+                <option value="LargeLPGCar">LargeLPGCar</option>
+                <option value="SmallPetrolVan">SmallPetrolVan</option>
+            <option value="MediumPetrolCar">MediumPetrolCar</option>
+            <option value="LargePetrolCar">LargePetrolCar</option>
+            <option value="MediumCNGCar">MediumCNGCar</option>
+            <option value="LargeCNGCar">LargeCNGCar</option>
+
+            </select>
+              <br>
+							<label for="distance">Enter the distance you travelled in Kms: </label>
+							<input type="number" name="distance" min=0 max=10000 placeholder="0" value="<%=dist%>">
+							<br>
+
+						  <div class="np-clear nextprev">
+						  <button type="submit" name="button" class="np-clea">Calculate</button>
+						  </div>
+						  <hr>
+							</form>
+
+  </div>
+
+
+
+<hr>
+
 <br>
-<p style="color:black;"><%=statement%></p>
+<p style="color:white;"><%=statement%></p>
 <h2 style="color:white;">Total Flights Footprint = <%=carbon%> metric tons of CO2e.</h2>
 <div class="np-clear nextprev">
 <a class="np-left " href="/CarTravel">❮ Previous</a>

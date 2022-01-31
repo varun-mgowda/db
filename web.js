@@ -22,8 +22,7 @@ var carbonFootprintResult1=0;
 var b=0;
 var flag=0;
 var a="";
-var msg="";
-var msgb="";
+
 var motorDist=0;
 var carsDist=0;
 var flightDist=0;
@@ -68,17 +67,30 @@ const DataSchema=new mongoose.Schema({
   Flight:{
     flightType:String,
     distance:Number,
-    footprint:Number
+    footprint:Number,
+    flightType2:String,
+    distance2:Number,
+    footprint1:Number,
+    footprint2:Number
   },
   Public:{
     vehicleType:String,
     distance:Number,
-    footprint:Number
+    footprint:Number,
+    vehicleType2:String,
+    distance2:Number,
+    footprint1:Number,
+    footprint2:Number
   },
   Motor:{
     motorType:String,
     distance:Number,
-    footprint:Number
+    footprint:Number,
+    motorType2:String,
+    distance2:Number,
+    footprint1:Number,
+      footprint2:Number
+
   },
   Car1:{
     carType:String,
@@ -95,17 +107,29 @@ const DataSchema=new mongoose.Schema({
   Flight1:{
     flightType:String,
     distance:Number,
-    footprint:Number
+    footprint:Number,
+    flightType2:String,
+    distance2:Number,
+    footprint1:Number,
+    footprint2:Number
   },
   Public1:{
     vehicleType:String,
     distance:Number,
-    footprint:Number
+    footprint:Number,
+    vehicleType2:String,
+    distance2:Number,
+    footprint1:Number,
+    footprint2:Number
   },
   Motor1:{
     motorType:String,
     distance:Number,
-    footprint:Number
+    footprint:Number,
+    motorType2:String,
+    distance2:Number,
+    footprint1:Number,
+      footprint2:Number
   },
   Result:{
     total:Number
@@ -138,6 +162,10 @@ passport.deserializeUser(function(user, done) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////root and home routes /////////////////////////////////////////////////////////////////////////////
+
+app.get("/starter",function(req,res){
+  res.render("starter")
+})
 
 app.get("/",function(req,res){
   if(req.isAuthenticated()){
@@ -633,54 +661,54 @@ app.get("/results2",function(req,res){
     Data.findOne({_id:_id}, function (err, user) {
 
       cd=user.Car.distance;
-      cf=user.Car.footprint1;
+      cf=user.Car.footprint1/100;
       cfu=user.Car.fuel;
       var ct=user.Car.carType;
       cd2=user.Car.distance2;
-      cf2=user.Car.footprint2;
+      cf2=user.Car.footprint2/100;
       cfu2=user.Car.fuel2;
       var ct2=user.Car.carType2;
 
 
             fd=user.Flight.distance;
-            ff=user.Flight.footprint;
+            ff=user.Flight.footprint/100;
             ft=user.Flight.flightType;
 
             md=user.Motor.distance;
-            mf=user.Motor.footprint;
+            mf=user.Motor.footprint/100;
            mt=user.Motor.motorType;
 
 
             pd=user.Public.distance;
-            pf=user.Public.footprint;
+            pf=user.Public.footprint/100;
             pt=user.Public.vehicleType;
 
-            var c=user.Result.total;
+            var c=user.Result.total/100;
 
                     cd1=user.Car1.distance;
-                    cf1=user.Car1.footprint1;
+                    cf1=user.Car1.footprint1/100;
                     cfu1=user.Car1.fuel;
                     var ct1=user.Car1.carType;
                     cd22=user.Car1.distance2;
-                    cf22=user.Car1.footprint2;
+                    cf22=user.Car1.footprint2/100;
                     cfu22=user.Car1.fuel2;
                     var ct22=user.Car1.carType2;
 
 
                   fd1=user.Flight1.distance;
-                  ff1=user.Flight1.footprint;
+                  ff1=user.Flight1.footprint/100;
                   ft1=user.Flight1.flightType;
 
                   md1=user.Motor1.distance;
-                  mf1=user.Motor1.footprint;
+                  mf1=user.Motor1.footprint/100;
                  mt1=user.Motor1.motorType;
 
 
                   pd1=user.Public1.distance;
-                  pf1=user.Public1.footprint;
+                  pf1=user.Public1.footprint/100;
                   pt1=user.Public1.vehicleType;
 
-                  var c1=user.Result1.total;
+                  var c1=user.Result1.total/100;
 
       res.render("results2",{vehicle1:ct,distance1:cd,fuel1:cfu,vehicle21:ct2,distance22:cd2,fuel23:cfu2,footprint24:cf2,footprint1:cf,vehicle2:ft,distance2:fd,footprint2:ff,vehicle3:mt,distance3:md,footprint3:mf,vehicle4:pt,distance4:pd,footprint4:pf,carbon:c,vehicle11:ct1,distance11:cd1,fuel11:cfu1,footprint11:cf1,vehicle31:ct22,distance32:cd22,fuel33:cfu22,footprint34:cf22,vehicle12:ft1,distance12:fd1,footprint12:ff1,vehicle13:mt1,distance13:md1,footprint13:mf1,vehicle14:pt1,distance14:pd1,footprint14:pf1,carbon1:c1});
     });
@@ -776,12 +804,12 @@ app.get("/reduce",function(req,res){
   res.render("reduce");
 })
 
-app.get("/register",function(req,res){
-res.render("starter",{msgb:" "});
-})
-app.get("/login",function(req,res){
-res.render("starter",{msg:" "});
-})
+// app.get("/register",function(req,res){
+// res.render("starter",{msgb:" ",msg:" "});
+// })
+// app.get("/login",function(req,res){
+// res.render("starter",{msg:" ",msgb:" "});
+// })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////clear whole form /////////////////////////////////////////////////////////////////////////////
@@ -972,7 +1000,7 @@ app.post("/login",function(req,res){
 
   passport.authenticate('local', function(err, user, info) {
    if (err) { return next(err); }
-   if (!user) { res.render("starter",{msg:"User doesn't exist."});
+   if (!user) { res.render("starter")
     }
    req.logIn(user, function(err) {
      if (err) { return (err); }
@@ -991,7 +1019,7 @@ app.post("/register",function(req,res){
   });
   Data.register(user2,req.body.password,function(err,user){
     if(err){
-    res.render("starter",{msgb:"user already found"});
+    res.render("starter");
     }
     else{
       passport.authenticate("local")(req,res,function(){
@@ -1215,7 +1243,7 @@ const options = {
 	"path": "/CarbonFootprintFrom"+type1+"?distance="+b+"&"+type+"="+a,
 	"headers": {
 		"x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
-    "x-rapidapi-key": "78adb68739mshb22516f71690304p19bc1djsn7cc905175115",
+  "x-rapidapi-key": "d864295110msha8c3f53c363d757p1c9a69jsn9c2890110010",
 		"useQueryString": true
 	}
 };
@@ -1286,8 +1314,10 @@ else{
 else if(z==="CarTravel"){
 
     Data.findOne({_id:_id}, function (err, user) {
-        var prev=JSON.parse(body).carbonEquivalent;
-      carbonFootprint1+=JSON.parse(body).carbonEquivalent;
+        var prev=JSON.parse(body).carbonEquivalent/100;
+        prev.toFixed(2);
+      carbonFootprint1+=JSON.parse(body).carbonEquivalent/100;
+    carbonFootprint1.toFixed(2);
       // carbonFootprint1 = carbonFootprint1.toFixed(2);
       carbonFootprintResult+=prev;
       if(user.entry==="entry1"){

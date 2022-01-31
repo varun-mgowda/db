@@ -38,7 +38,8 @@ new Chart("myChart", {
 		background-attachment: fixed;
 		background-size: cover;
 		background-color:#5CB85C;
-		 background-image: url("https://wallpapercave.com/wp/wp5820973.jpg");
+		color:white;
+		 background-image: url("https://images.unsplash.com/photo-1623680391265-df20fdc90a16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8Nnx8fGVufDB8fHx8&w=1000&q=80");
 
 
 
@@ -51,16 +52,15 @@ new Chart("myChart", {
 <form action="/MotorBike" method="post">
 	<label for="bike">Select the motorbike type: </label>
 	<select name="bike" id="bike">
-		<option value="">--Please choose an option--</option>
+	
 
-		<%  if(sel==="SmallMotorBike"){ %>
-		<option select selected value="MediumDieselCar">SmallMotorBike</option>
-		<%}  if(sel==="MediumMotorBike"){ %>
-		<option select selected value="MediumDieselCar">MediumMotorBike</option>
-		<%}  if(sel==="LargeMotorBike"){ %>
-		<option select selected value="MediumDieselCar">LargeMotorBike</option>
+					<% if(sel==="--Please choose an option--"){ %>
+					<option select selected value="" disabled><%=sel%></option>
+					<%}else{%>
+					<option select selected value="<%=sel%>"><%=sel%></option>
+					<%}%>
 
-			 <%}%>
+
 
 		<option value="SmallMotorBike">SmallMotorBike</option>
 		<option value="MediumMotorBike">MediumMotorBike</option>
@@ -75,8 +75,47 @@ new Chart("myChart", {
   </div>
 </form>
 
+
 <hr>
-<p style="color:black;"><%=statement%></p>
+
+<p>
+
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Add another entry
+  </button>
+</p>
+<hr>
+<div class="collapse" id="collapseExample">
+	<form action="/MotorBike" method="post">
+		<label for="bike">Select the motorbike type: </label>
+		<select name="bike" id="bike">
+
+
+			<% if(sel==="--Please choose an option--"){ %>
+			<option select selected value="" disabled><%=sel%></option>
+			<%}else{%>
+			<option select selected value="<%=sel%>"><%=sel%></option>
+			<%}%>
+
+
+
+			<option value="SmallMotorBike">SmallMotorBike</option>
+			<option value="MediumMotorBike">MediumMotorBike</option>
+			<option value="LargeMotorBike">LargeMotorBike</option>
+		</select>
+		<br>
+		<label for="distance">Enter the distance you travelled in Kms: </label>
+		<input type="number" name="distance" min=0 max=10000 placeholder="0" value="<%=dist%>">
+		<br>
+	  <div class="np-clear nextprev">
+	  <button type="submit" name="button" class="np-clea">Calculate</button>
+	  </div>
+	</form>
+</div>
+
+
+<hr>
+<p style="color:white;"><%=statement%></p>
 <h2 style="color:white;">Total Motorbike Footprint = <%=carbon%> metric tons of CO2e.</h2>
 <div class="np-clear nextprev">
 <a class="np-left ws-btn" href="/Flight">❮ Previous</a>

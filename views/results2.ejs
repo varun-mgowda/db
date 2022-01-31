@@ -41,15 +41,15 @@ margin:auto;
     <tr>
       <th  scope="col">#1</th>
       <th scope="col">Vehicle Type</th>
-        <th scope="col">Distance</th>
-      <th scope="col">Fuel consumption</th>
+        <th scope="col">Distance(Kms)</th>
+      <th scope="col">Fuel consumption(L/100Kms)</th>
 
-      <th scope="col">Carbon Footprint</th>
+      <th scope="col">Carbon Footprint(metric.ton)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row">Car</th>
+      <th scope="row">Car1</th>
       <td><%=vehicle1%></td>
       <td><%=distance1%></td>
       <td><%=fuel1%></td>
@@ -64,27 +64,53 @@ margin:auto;
 
     </tr>
     <tr>
-      <th scope="row">Flight</th>
-      <td><%=vehicle2%></td>
+      <th scope="row">Flight1</th>
+      <td><%=vehicle2%>
+      (one way)</td>
       <td><%=distance2%></td>
+        <td>----</td>
       <td><%=footprint2%></td>
     </tr>
     <tr>
-      <th scope="row">MotorBike</th>
+      <th scope="row">Flight2</th>
+      <td>LongPremiumClassFlight
+      (two way)</td>
+      <td>1250</td>
+        <td>----</td>
+      <td>1.918875</td>
+    </tr>
+    <tr>
+      <th scope="row">MotorBike1</th>
       <td id="1_1"><%=vehicle3%></td>
       <td id="1_2"><%=distance3%></td>
+        <td><%=fuel1%></td>
       <td id="1_3"><%=footprint3%></td>
     </tr>
     <tr>
-      <th scope="row">Public Transit</th>
+      <th scope="row">MotorBike2</th>
+      <td id="1_1">SmallMotorBike</td>
+      <td id="1_2">1362</td>
+        <td>2</td>
+      <td id="1_3">1.101236</td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit1</th>
       <td><%=vehicle4%></td>
       <td><%=distance4%></td>
+        <td>----</td>
       <td><%=footprint4%></td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit2</th>
+      <td>EcoBus</td>
+      <td>1460</td>
+        <td>----</td>
+      <td>2.203654</td>
     </tr>
   </tbody>
 </table>
 <p>
-  Total Carbon Footprint is : <%=carbon%>
+  Total Carbon Footprint is : <%=carbon%> metric tons of carbon.
 </p>
 <p>
 
@@ -110,41 +136,65 @@ margin:auto;
   </thead>
   <tbody>
     <tr>
-      <th scope="row">Car</th>
+      <th scope="row">Car1</th>
       <td><%=vehicle11%></td>
       <td><%=distance11%></td>
       <td><%=fuel11%></td>
       <td><%=footprint11%></td>
     </tr>
     <tr>
-      <th scope="row">Car</th>
+      <th scope="row">Car2</th>
       <td><%=vehicle31%></td>
       <td><%=distance32%></td>
       <td><%=fuel33%></td>
       <td><%=footprint34%></td>
     </tr>
     <tr>
-      <th scope="row">Flight</th>
+      <th scope="row">Flight1</th>
       <td><%=vehicle12%></td>
       <td><%=distance12%></td>
+        <td>----</td>
       <td><%=footprint12%></td>
     </tr>
     <tr>
-      <th scope="row">MotorBike</th>
+      <th scope="row">Flight2</th>
+      <td><%=vehicle12%></td>
+      <td><%=distance12%></td>
+        <td>----</td>
+      <td><%=footprint12%></td>
+    </tr>
+    <tr>
+      <th scope="row">MotorBike1</th>
       <td><%=vehicle13%></td>
       <td><%=distance13%></td>
+        <td><%=fuel11%></td>
       <td><%=footprint13%></td>
     </tr>
     <tr>
-      <th scope="row">Public Transit</th>
+      <th scope="row">MotorBike2</th>
+      <td><%=vehicle13%></td>
+      <td><%=distance13%></td>
+        <td><%=fuel11%></td>
+      <td><%=footprint13%></td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit1</th>
       <td><%=vehicle14%></td>
       <td><%=distance14%></td>
+        <td>----</td>
+      <td><%=footprint14%></td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit2</th>
+      <td><%=vehicle14%></td>
+      <td><%=distance14%></td>
+        <td>----</td>
       <td><%=footprint14%></td>
     </tr>
   </tbody>
 </table>
 <p>
-  Total Carbon Footprint is : <%=carbon1%>
+  Total Carbon Footprint is : <%=carbon1%> metric tons of carbon.
 </p>
 <br><hr><br>
 

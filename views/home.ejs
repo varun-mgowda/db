@@ -1,0 +1,64 @@
+<%- include("partials/header")%>
+<style >
+	body{
+
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-color:#5CB85C;
+		 background-image: url("/images/home.jpg");
+		 color:white;
+
+
+
+	 }
+	 .home{
+		 text-align:left;
+		 margin-left:20px;
+	 }
+	 .subcal{
+     position:absolute;
+		 text-align:center;
+		 margin-left:20%;
+	 }
+</style>
+<div class="home">
+
+
+
+<h1>Welcome To</h1>
+<h1 style=" font-size:50px; font-family:cantarell; color: white;"><b>CARBON FOOTPRINT CALCULATOR</b></h1>
+
+
+
+<h3> Carbon Footprint Calculator For Individuals And Households</h3>
+<div class="subcal">
+<form action="/entry" method="post">
+
+	<div class="np-clear nextprev">
+  <button type="submit" name="button" class="np-clea" style="margin-top:20px;">Lets Calculate</button>
+	</div><br>
+<select  name="entry"id="entry">
+
+	<% if(sel==="entry2"){ %>
+	<option select selected value="entry2">Entry 2</option>
+	<option value="entry1" >Entry 1</option>
+
+		 <%} else{ %>
+			 <option select selected value="entry1" >Entry 1</option>
+			 <option value="entry2" >Entry 2</option>
+
+<%}%>
+
+<!-- <option value="entry1" >Entry 1</option>
+<option value="entry2" >Entry 2</option> -->
+
+</select>
+
+
+</form>
+</div>
+</div>
+
+<%- include("partials/footer")%>

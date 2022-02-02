@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<body>
+
+
+<canvas id="myChart" style="width:100%;max-width:600px;height:30%;"></canvas>
+<script>
+var xValues = ["Global Footprint", "country Footprint", "Your Footprint"];
+var yValues = [55, 49, 44];
+var barColors = [
+  "#b91d47",
+  "#00aba9",
+
+  "#1e7145"
+];
+
+new Chart("myChart", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Cars carbon footprint analysis"
+    }
+  }
+});
+</script>
+<style media="screen">
+  #mychart{
+    position: relative;
+    padding-top:50%;
+  }
+</style>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<p>
+
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Add another entry
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <form id="cars" action="/CarTravel" method="post" class="form">
+    	<label for="car">Select the car type: </label>
+    	<select name="cars" id="car">
+    		<option value="">--Please choose an option--</option>
+
+        <option  value="SmallDieselCar">SmallDieselCar</option>
+                <option  value="MediumDieselCar">MediumDieselCar</option>
+                <option value="LargeDieselCar">LargeDieselCar</option>
+                <option value="MediumHybridCar">MediumHybridCar</option>
+                <option value="LargeHybridCar">LargeHybridCar</option>
+                <option value="MediumLPGCar">MediumLPGCar</option>
+                <option value="LargeLPGCar">LargeLPGCar</option>
+                <option value="SmallPetrolVan">SmallPetrolVan</option>
+            <option value="MediumPetrolCar">MediumPetrolCar</option>
+            <option value="LargePetrolCar">LargePetrolCar</option>
+            <option value="MediumCNGCar">MediumCNGCar</option>
+            <option value="LargeCNGCar">LargeCNGCar</option>
+
+            </select>
+              <br>
+              <label class="card-text" for="distance" >Enter the distance you travelled in Kms: </label>
+              <input id="dist" type="number" name="distance" min=0 max=10000 placeholder="0" value="">
+        		<div class="np-clear nextprev">
+        			<button type="submit" name="button" class="np-clea">Calculate</button>
+        		</div>
+        </form>
+  </div>
+</div>

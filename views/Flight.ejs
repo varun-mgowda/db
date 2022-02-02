@@ -1,0 +1,159 @@
+<%- include("partials/header")%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:500px;height:40%;"></canvas>
+
+<script>
+	var xValues = ["Global Footprint", "country Footprint", "Your Footprint"];
+	var yValues = [10, 15, <%=pie%>];
+var barColors = [
+
+	"#00ffab",
+	"#4fb056",
+	"#1ef10e"
+
+];
+
+new Chart("myChart", {
+	type: "pie",
+	data: {
+		labels: xValues,
+		datasets: [{
+			backgroundColor: barColors,
+			data: yValues
+		}]
+	},
+	options: {
+		title: {
+			display: true,
+			text:  "Flight carbon footprint analysis."
+		}
+	}
+});
+</script>
+<style >
+	body{
+
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		background-color:#5CB85C;
+		 background-image: url("https://images.unsplash.com/photo-1623680391265-df20fdc90a16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8Nnx8fGVufDB8fHx8&w=1000&q=80");
+color:white;
+
+
+	 }
+</style>
+
+<!-- <h1>Carbon Footprint calculator</h1> -->
+
+<h2><%=title%> Carbon Footprint </h2><br>
+
+<form action="/Flight" method="post">
+	<div name="ways">
+		<label for="one">One way flight</label>
+		<input type="radio" name="radioButtons" id="one" value="one" checked=checked>
+		<label for="two">Two way flight</label>
+		<input type="radio" name="radioButtons" id="two" value="two">
+
+	</div>
+
+	<label for="vehical">Select the Flight type: </label>
+	<select name="vehical" id="vehical">
+
+		<% if(sel==="--Please choose an option--"){ %>
+		<option select selected value="" disabled><%=sel%></option>
+		<%}else{%>
+		<option select selected value="<%=sel%>"><%=sel%></option>
+		<%}%>
+
+
+
+		<option value="DomesticFlight">DomesticFlight</option>
+		<option value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
+		<option value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>
+		<option value="LongEconomyClassFlight">LongEconomyClassFlight</option>
+		<option value="LongPremiumClassFlight">LongPremiumClassFlight</option>
+		<option value="LongBusinessClassFlight">LongBusinessClassFlight</option>
+		<option value="LongFirstClassFlight">LongFirstClassFlight</option>
+	</select>
+	<br>
+
+
+
+	<label for="distance">Enter the distance you travelled in Kms: </label>
+	<input type="number" name="distance" min=0 max=10000 placeholder="0" value="<%=dist%>">
+	<br>
+
+  <div class="np-clear nextprev">
+  <button type="submit" name="button" class="np-clea">Calculate</button>
+  </div>
+  <br>
+</form>
+
+
+
+<br>
+
+<div class="np-clear nextprev">
+  <button class="  np-clea submit-btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Add another entry
+  </button>
+	</div>
+
+<br>
+<div class="collapse" id="collapseExample">
+
+
+	<form action="/Flight2" method="post">
+		<div name="ways2">
+			<label for="one">One way flight</label>
+			<input type="radio" name="radioButtons2" id="one" value="one" checked=checked>
+			<label for="two">Two way flight</label>
+			<input type="radio" name="radioButtons2" id="two" value="two">
+
+		</div>
+
+		<label for="vehical2">Select the Flight type: </label>
+		<select name="vehical2" id="vehical2">
+
+			<% if(sel2==="--Please choose an option--"){ %>
+			<option select selected value="" disabled><%=sel2%></option>
+			<%}else{%>
+			<option select selected value="<%=sel2%>"><%=sel2%></option>
+			<%}%>
+
+			<option value="DomesticFlight">DomesticFlight</option>
+			<option value="ShortEconomyClassFlight">ShortEconomyClassFlight</option>
+			<option value="ShortBusinessClassFlight">ShortBusinessClassFlight</option>
+			<option value="LongEconomyClassFlight">LongEconomyClassFlight</option>
+			<option value="LongPremiumClassFlight">LongPremiumClassFlight</option>
+			<option value="LongBusinessClassFlight">LongBusinessClassFlight</option>
+			<option value="LongFirstClassFlight">LongFirstClassFlight</option>
+		</select>
+              <br>
+							<label for="distance2">Enter the distance you travelled in Kms: </label>
+							<input type="number" name="distance2" min=0 max=10000 placeholder="0" value="<%=dist2%>">
+							<br>
+
+						  <div class="np-clear nextprev">
+						  <button type="submit" name="button" class="np-clea">Calculate</button>
+						  </div>
+						  <br>
+							</form>
+
+  </div>
+
+
+
+<br>
+
+<br>
+<p style="color:white;"><%=statement%></p>
+<h2 style="color:white;">Total Flights Footprint = <%=carbon%> metric tons of CO2e.</h2>
+<div class="np-clear nextprev">
+<a class="np-left " href="/CarTravel">❮ Previous</a>
+<a class="np-right" href="/MotorBike">Next ❯</a>
+<a class="np-clea" href="/FlightClear">Clear 🗘</a>
+</div>
+<%- include("partials/footer")%>

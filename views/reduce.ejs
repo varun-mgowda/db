@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<title>What is your carbon footprint?|Carbon Footprint Calculator</title>
+
+	<link rel="icon" href="/images/_favicon.ico">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" charset="utf-8"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
+
+	<style media="screen">
+		@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+		body {
+			font-family: 'Roboto', sans-serif;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		i {
+			margin-right: 10px;
+		}
+
+		/*----------bootstrap-navbar-css------------*/
+		.navbar-logo {
+			padding: 15px;
+			color: #fff;
+
+		}
+
+		.navbar-mainbg {
+			background-color: #253526;
+			padding: 0px;
+		}
+
+		#navbarSupportedContent {
+			overflow: hidden;
+			position: relative;
+		}
+
+		#navbarSupportedContent ul {
+			padding: 0px;
+			margin: 0px;
+		}
+
+		#navbarSupportedContent ul li a i {
+			margin-right: 10px;
+		}
+
+		#navbarSupportedContent li {
+			list-style-type: none;
+			float: left;
+		}
+
+		#navbarSupportedContent ul li a {
+			color: rgba(255, 255, 255, 0.5);
+			text-decoration: none;
+			font-size: 15px;
+			display: block;
+			padding: 20px 20px;
+			transition-duration: 0.6s;
+			transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+			position: relative;
+		}
+
+		#navbarSupportedContent>ul>li.active>a {
+			color: #5CB85C;
+			background-color: transparent;
+			transition: all 0.7s;
+		}
+
+		#navbarSupportedContent a:not(:only-child):after {
+			content: "\f105";
+			position: absolute;
+			right: 20px;
+			top: 10px;
+			font-size: 14px;
+			font-family: "Font Awesome 5 Free";
+			display: inline-block;
+			padding-right: 3px;
+			vertical-align: middle;
+			font-weight: 900;
+			transition: 0.5s;
+		}
+
+		#navbarSupportedContent .active>a:not(:only-child):after {
+			transform: rotate(90deg);
+		}
+
+		.hori-selector {
+			display: inline-block;
+			position: absolute;
+			height: 100%;
+			top: 0px;
+			left: 0px;
+			transition-duration: 0.6s;
+			transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+			background-color: #fff;
+			border-top-left-radius: 15px;
+			border-top-right-radius: 15px;
+			margin-top: 10px;
+		}
+
+		.hori-selector .right,
+		.hori-selector .left {
+			position: absolute;
+			width: 25px;
+			height: 25px;
+			background-color: #fff;
+			bottom: 10px;
+		}
+
+		.hori-selector .right {
+			right: -25px;
+		}
+
+		.hori-selector .left {
+			left: -25px;
+		}
+
+		.hori-selector .right:before,
+		.hori-selector .left:before {
+			content: '';
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			background-color:#253526;
+		}
+
+		.hori-selector .right:before {
+			bottom: 0;
+			right: -25px;
+		}
+
+		.hori-selector .left:before {
+			bottom: 0;
+			left: -25px;
+		}
+
+
+		@media(min-width: 992px) {
+			.navbar-expand-custom {
+				-ms-flex-flow: row nowrap;
+				flex-flow: row nowrap;
+				-ms-flex-pack: start;
+				justify-content: flex-start;
+			}
+
+			.navbar-expand-custom .navbar-nav {
+				-ms-flex-direction: row;
+				flex-direction: row;
+			}
+
+			.navbar-expand-custom .navbar-toggler {
+				display: none;
+			}
+
+			.navbar-expand-custom .navbar-collapse {
+				display: -ms-flexbox !important;
+				display: flex !important;
+				-ms-flex-preferred-size: auto;
+				flex-basis: auto;
+			}
+		}
+
+		.navbar-mainbg {
+			position: fixed;
+			top: 0;
+			width: 100%;
+		}
+
+		.body {
+			margin-top: 50px;
+		}
+
+		@media (max-width: 991px) {
+			#navbarSupportedContent ul li a {
+				padding: 12px 30px;
+			}
+
+			.hori-selector {
+				margin-top: 0px;
+				margin-left: 10px;
+				border-radius: 0;
+				border-top-left-radius: 25px;
+				border-bottom-left-radius: 25px;
+			}
+
+			.hori-selector .left,
+			.hori-selector .right {
+				right: 10px;
+			}
+
+			.hori-selector .left {
+				top: -25px;
+				left: auto;
+			}
+
+			.hori-selector .right {
+				bottom: -25px;
+			}
+
+			.hori-selector .left:before {
+				left: -25px;
+				top: -25px;
+			}
+
+			.hori-selector .right:before {
+				bottom: -25px;
+				left: -25px;
+			}
+		}
+	</style>
+	<!-- <link rel="stylesheet" href="/css/styles.css"> -->
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-custom navbar-mainbg">
+		<span class="navbar-brand navbar-logo" href="#"><img src="/images/header2.png" style="width:35px;" alt=""> Carbon Footprint Calculator</span>
+		<button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<i class="fas fa-bars text-white"></i>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<div class="hori-selector">
+					<div class="left"></div>
+					<div class="right"></div>
+				</div>
+				<li class="nav-item active">
+					<a class="nav-link" href="/home">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/CarTravel">Cars</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/Flight">Flights</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/MotorBike">Motorbike</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/PublicTransit">Public Transport</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/Results">Results</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/Reduce">Reducing Footprint</a>
+				</li>
+				<li class="nav-item ">
+					<a class="nav-link" href="/logout">Logout</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="body">
+
+		<style>
+			.body {
+				font-family: 'Open Sans', sans-serif;
+				font-weight: 400;
+				line-height: 1.45;
+				color: #333;
+			}
+
+			.result {
+				display: block;
+				text-align: ;
+				padding-top: 50px;
+				margin: 30px;
+			}
+
+
+
+				ul.listing li {
+					display: list-item;
+					margin: 0em 0em 0.2em 0;
+					padding: 0 0 0 1.2em;
+
+					background: url("https://www.carbonfootprint.com/assets/liarrow.gif") 0 4px no-repeat;
+
+					list-style: none;
+
+				}
+
+
+
+			h3 {
+				font-size: 1.777em;
+				line-height: 1.2;
+			}
+
+			h4 {
+				font-size: 1.333em;
+			}
+		</style>
+		<div class="result">
+
+			<table style="width: 100%; height: 64px; background-color:#5cb88a;">
+				<tbody>
+					<tr>
+						<td style="background-color: #5cb88a">
+							<h1 style="text-align: center;"><span style="font-size: 24px;">CARBON REDUCTION</span></h1>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+
+			<section>
+
+
+				<h3><span style="font-size: 26px;">Top 5 Cost Saving actions</span></h3><br>
+				<h4>1. Hang out the washing instead of tumble drying&nbsp;</h4>
+				<p>Hanging the washing out instead of using the tumble drier will <strong>save about 153kg CO<sub>2</sub> a year</strong>&nbsp;- that's <strong>£52 (USD68) each year</strong>, based on 150 cycles a year.&nbsp;</p>
+				<h4>2. Turn down the heating by 1⁰C</h4>
+				<p>Reducing your heating by 1⁰C can <strong>reduce your energy consumption by 8%</strong>. For an average household gas bill of 12,500kWh this will <strong>r</strong><strong>educe your CO<sub>2 </sub>emissions by 184kg</strong>&nbsp;-
+					that's <strong>£42 (USD55) each year</strong>.</p>
+				<h4>3.&nbsp;Only fill the kettle with the amount of water you need to boil</h4>
+				<p><strong></strong>Only boiling the amount of water for your hot drink will save <strong>72kg CO<sub>2</sub></strong> a year - that's <strong>£23</strong> (<strong>USD30) per annum</strong></p>
+				<h4>4. Spend less time in the shower</h4>
+				<p><strong></strong>Spending 1 minute less in the shower can save <strong>23kg CO<sub>2</sub> and £8 (USD10) a year</strong> (based on one shower a day and a 9kW shower).</p>
+				<h4>5.&nbsp;Turn electrical equipment off when not in use&nbsp;</h4>
+				<p>Fully turning off just one LCD TV (rather than leaving it on standby) for 18 hours a day will save about<strong> 5kg CO<sub>2</sub> a year&nbsp;</strong>- saving <strong>£2 a year (USD2.64)</strong>.<strong> </strong>Turn off all
+					other electrical equipment when not in use to multiply the savings.</p>
+				<table style="width: 100%; height: 64px; background-color: #5cb88a">
+					<tbody>
+						<tr>
+							<td style="background-color: #5cb88a">
+								<h5 style="text-align: center;"><span style="font-size: 24px;">Total Potential savings are 437kg CO<sub>2</sub> and £127 each year</span></h5>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+			</section>
+
+			<section>
+
+
+				<h3>Technology based energy savings</h3>
+				<p>
+					<a href="/energyconsumption.html"></a>
+				</p>
+				<p>The following is a list of items that may take an initial investment, but should pay for themselves through savings on your energy bills.</p>
+				<ul style="margin:10px;" class="listing">
+					<li class="list">Fit energy saving light bulbs&nbsp;- LEDs can save 90% of lighting energy costs</li>
+					<li class="list">Install thermostatic valves on your radiators</li>
+					<li class="list">Insulate your hot water tank</li>
+					<li class="list">Install cavity wall installation</li>
+					<li class="list">Install 180mm thick loft insulation</li>
+					<li class="list">Replace your old refrigerator / freezer (if it is over 15 years old), with a new one with energy efficiency rating of "A++"</li>
+					<li class="list">Replace your old boiler with a new energy efficient condensing boiler</li>
+				</ul>
+				<h2>Travel less and travel more carbon footprint friendly&nbsp;</h2>
+				<ul style="margin:10px;" class="listing">
+					<li class="list">Car share to work or for the kids school run</li>
+					<li class="list">Use the bus or a train rather than your car</li>
+					<li class="list">For short journeys; walk or cycle</li>
+					<li class="list">Try to reduce the number of flights you take</li>
+					<li class="list">See if your employer will allow you to work from home one day a week</li>
+					<li class="list">Next time you replace your car - make sure you choose a low emission vehicle. If you have the budget, consider getting a hybrid or full electric car.</li>
+					<li class="list">When staying in a hotel - turn the lights and air-conditioning off when you leave your hotel room, and ask for your room towels to be washed every other day, rather than every day</li>
+				</ul>
+				<table style="width: 100%; height: 64px; background-color:#5cb88a;">
+					<tbody>
+						<tr>
+							<td style="background-color: #5cb88a">
+								<h5 style="text-align: center;"><span style="font-size: 24px;">Electric Vehicles -&nbsp;Our Primer on the Benefits</span></h5>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+			</section>
+			<section>
+
+
+				<h3>As well as your primary carbon footprint, there is also a secondary footprint caused by your purchasing habits</h3>
+				<ul style="margin:10px;" class="listing">
+					<li class="list">Don't buy bottled water if your tap water is safe to drink</li>
+					<li class="list">Buy local fruit and vegetables, or even try growing your own</li>
+					<li class="list">Buy foods that are in season locally</li>
+					<li class="list">Don't buy fresh fruit and vegetables which are out of season, they may have been flown in</li>
+					<li class="list">Reduce your consumption of meat</li>
+					<li class="list">Try to only buy products made close to home (look out and avoid items that are made in the distant lands)</li>
+					<li class="list">Buy organic produce</li>
+					<li class="list">Don't buy over packaged products</li>
+					<li class="list">Recycle as much as possible</li>
+					<li class="list">Think carefully about the type of activities you do in your spare time. Do any of these cause an increase in carbon emissions? e.g. Saunas, Health clubs, restaurants and pubs, go-karting etc. etc...</li>
+				</ul>
+			</section>
+		</div>
+		<%- include("partials/footer") %>

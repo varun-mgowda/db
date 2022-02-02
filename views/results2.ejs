@@ -1,0 +1,215 @@
+<%- include("partials/header")%>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  </body>
+</html>
+
+<style >
+.navbar-mainbg {
+	position: fixed;
+	top: 0;
+	width: 100%;
+  z-index:2;
+}
+.body {
+	margin-top: 50px;
+	margin-bottom:30px;
+}
+.table{
+width:70%;
+position:relative;
+margin:auto;
+}
+.btn{
+  position:relative;
+  margin:auto;
+}
+</style>
+
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th  scope="col">#1</th>
+      <th scope="col">Vehicle Type</th>
+        <th scope="col">Distance(Kms)</th>
+      <th scope="col">Fuel consumption(L/100Kms)</th>
+
+      <th scope="col">Carbon Footprint(metric.ton)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Car1</th>
+      <td><%=vehicle1%></td>
+      <td><%=distance1%></td>
+      <td><%=fuel1%></td>
+  <td><%=footprint1%></td>
+    </tr>
+    <tr>
+      <th scope="row">Car2</th>
+      <td><%=vehicle21%></td>
+      <td><%=distance22%></td>
+      <td><%=fuel23%></td>
+      <td><%=footprint24%></td>
+
+    </tr>
+    <tr>
+      <th scope="row">Flight1</th>
+      <td><%=vehicle2%>
+      (one way)</td>
+      <td><%=distance2%></td>
+        <td>----</td>
+      <td><%=footprint2%></td>
+    </tr>
+    <tr>
+      <th scope="row">Flight2</th>
+      <td><%=vehiclef12%>
+      (two way)</td>
+      <td><%=distancef12%></td>
+        <td>----</td>
+      <td><%=footprintf12%></td>
+    </tr>
+    <tr>
+      <th scope="row">MotorBike1</th>
+      <td id="1_1"><%=vehicle3%></td>
+      <td id="1_2"><%=distance3%></td>
+        <td><%=fuel3%></td>
+      <td id="1_3"><%=footprint3%></td>
+    </tr>
+    <tr>
+      <th scope="row">MotorBike2</th>
+      <td id="1_1"><%=vehiclem11%></td>
+      <td id="1_2"><%=distancem11%></td>
+        <td><%=fuelm11%></td>
+      <td id="1_3"><%=footprintm11%></td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit1</th>
+      <td><%=vehicle4%></td>
+      <td><%=distance4%></td>
+        <td>----</td>
+      <td><%=footprint4%></td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit2</th>
+      <td><%=vehiclep11%></td>
+      <td><%=distancep11%></td>
+        <td>----</td>
+      <td><%=footprintp11%></td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Total Carbon Footprint is : <%=carbon%> metric tons of carbon.
+</p>
+<p>
+
+
+
+<button  class="btn btn-dark np-clea" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Previous Entries
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+
+
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th  scope="col">#1</th>
+      <th scope="col">Vehicle Type</th>
+        <th scope="col">Distance(Kms)</th>
+      <th scope="col">Fuel consumption(L/100Kms)</th>
+
+      <th scope="col">Carbon Footprint(metric.ton)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Car1</th>
+      <td><%=vehicle11%></td>
+      <td><%=distance11%></td>
+      <td><%=fuel11%></td>
+      <td><%=footprint11%></td>
+    </tr>
+    <tr>
+      <th scope="row">Car2</th>
+      <td><%=vehicle31%></td>
+      <td><%=distance32%></td>
+      <td><%=fuel33%></td>
+      <td><%=footprint34%></td>
+    </tr>
+    <tr>
+      <th scope="row">Flight1</th>
+      <td><%=vehicle12%></td>
+      <td><%=distance12%></td>
+        <td>----</td>
+      <td><%=footprint12%></td>
+    </tr>
+    <tr>
+      <th scope="row">Flight2</th>
+      <td><%=vehiclef22%></td>
+      <td><%=distancef22%></td>
+        <td>----</td>
+      <td><%=footprintf22%></td>
+    </tr>
+    <tr>
+      <th scope="row">MotorBike1</th>
+      <td><%=vehicle13%></td>
+      <td><%=distance13%></td>
+        <td><%=fuel13%></td>
+      <td><%=footprint13%></td>
+    </tr>
+    <tr>
+      <th scope="row">MotorBike2</th>
+      <td><%=vehiclem22%></td>
+      <td><%=distancem22%></td>
+        <td><%=fuelm22%></td>
+      <td><%=footprintm22%></td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit1</th>
+      <td><%=vehicle14%></td>
+      <td><%=distance14%></td>
+        <td>----</td>
+      <td><%=footprint14%></td>
+    </tr>
+    <tr>
+      <th scope="row">Public Transit2</th>
+      <td><%=vehiclep22%></td>
+      <td><%=distancep22%></td>
+        <td>----</td>
+      <td><%=footprintp22%></td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Total Carbon Footprint is : <%=carbon1%> metric tons of carbon.
+</p>
+<br><hr><br>
+
+</div>
+
+
+<%- include("partials/footer")%>

@@ -1,0 +1,78 @@
+/* Next & Previous */
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+.nextprev{
+  /* padding-top: 50px; */
+  /* padding-bottom: 10px; */
+}
+.np-clear:after, .np-clear:before {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.nextprev a.np-right, .nextprev a.np-left, .nextprev a.np-clea, .nextprev a.np-first, .nextprev a.np-last, .nextprev button.np-clea{
+	background-color: #04AA6D;
+	color: #ffffff;
+	border-color: #04AA6D;
+	border-radius: 5px;
+	padding-left: 19px;
+	padding-right: 19px;
+}
+.nextprev button.np-clea:hover{
+	background-color:#04AA1A;
+	color: #ffffff;
+	border-color:#04AA1A;
+
+}
+
+.nextprev a ,np-clea{
+	font-size: 18px;
+	font-family: 'Source Sans Pro', sans-serif;
+	padding-left: 19px;
+	padding-right: 19px;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+}
+
+.np-left,.np-first {
+	float: left !important;
+  margin-left: 100px;
+}
+
+.np-right,.np-last {
+	float: right !important;
+  margin-right: 100px;
+}
+.np-clea{
+  float: none !important;
+  padding-top: 3.5px;
+  padding-bottom: 3.5px;
+}
+h2{
+	color:#ffff;
+
+}
+.navbar-mainbg {
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+.body {
+	margin-top: 50px;
+	margin-bottom:30px;
+}
+
+
+
+
+
+
+
+
+div.body {
+	display: block;
+	text-align: center;
+  padding-top: 50px;
+}
